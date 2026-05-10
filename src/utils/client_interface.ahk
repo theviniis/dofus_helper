@@ -1,23 +1,60 @@
 #Requires AutoHotkey v2.0
 
-SLEEP_TIME := 200
-
 class ClientInterface {
-    focusWindow() {
-        WinActivate("ahk_exe Dofus.exe")
+    __New(config) {
+        this.config := config
+        this.sleepTime := 200
     }
 
-    openChat() {
-        this.focusWindow()
-        Sleep(SLEEP_TIME)
-        Send(" ")
+    focusWindow(windowName?) {
+        if (windowName = "") {
+            WinActivate("ahk_exe Dofus.exe")
+        } else {
+            WinActivate(windowName)
+        }
+    }
+
+    waitWindow(windowName) {
+        WinWait(windowName)
+    }
+
+    windowExists(windowName) {
+        return WinExist(windowName)
     }
 
     sendText(text) {
         Send(text)
     }
 
+    sendKey(key) {
+        Send(key)
+    }
+
+    openChat() {
+        this.focusWindow()
+        Sleep(this.sleepTime)
+        Send(" ")
+    }
+
     confirm() {
         Send("{Enter}")
+    }
+
+    clickAt(coordName) {
+        coord := this.config.sacoDeViagens[coordName]
+        Click(coord.click[1], coord.click[2])
+    }
+
+    pixelMatches(coordName) {
+        detect := this.config.sacoDeViagens[coordName].detect
+        pixelColor := PixelGetColor(detect.pos[1], detect.pos[2])
+        return pixelColor == detect.color
+    }
+
+    sleep(ms?) {
+        if (ms = "") {
+            ms := this.sleepTime
+        }
+        Sleep(ms)
     }
 }
