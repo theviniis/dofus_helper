@@ -1,9 +1,10 @@
 #Requires AutoHotkey v2.0
 
+SLEEP_TIME := 250
+
 class ClientInterface {
     __New(config) {
         this.config := config
-        this.sleepTime := 200
     }
 
     focusWindow(windowName?) {
@@ -28,11 +29,12 @@ class ClientInterface {
 
     sendKey(key) {
         Send(key)
+        this.sleep(500)
     }
 
     openChat() {
         this.focusWindow()
-        Sleep(this.sleepTime)
+        Sleep(SLEEP_TIME)
         Send(" ")
     }
 
@@ -42,19 +44,16 @@ class ClientInterface {
 
     clickAt(coordName) {
         coord := this.config.sacoDeViagens[coordName]
-        Click(coord.click[1], coord.click[2])
+        Click(coord['click'][1], coord['click'][2])
     }
 
     pixelMatches(coordName) {
-        detect := this.config.sacoDeViagens[coordName].detect
-        pixelColor := PixelGetColor(detect.pos[1], detect.pos[2])
-        return pixelColor == detect.color
+        detect := this.config.sacoDeViagens[coordName]['detect']
+        pixelColor := PixelGetColor(detect['pos'][1], detect['pos'][2])
+        return pixelColor == detect['color']
     }
 
-    sleep(ms?) {
-        if (ms = "") {
-            ms := this.sleepTime
-        }
+    sleep(ms := SLEEP_TIME) {
         Sleep(ms)
     }
 
