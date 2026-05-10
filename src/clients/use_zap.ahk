@@ -63,6 +63,7 @@ class ZapNavigator {
             }
             else {
                 this.travel()
+                this.clientIF.sleep(1000)
             }
 
             this.clientIF.sleep()

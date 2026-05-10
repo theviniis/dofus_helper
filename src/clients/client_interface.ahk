@@ -29,7 +29,6 @@ class ClientInterface {
 
     sendKey(key) {
         Send(key)
-        this.sleep(500)
     }
 
     openChat() {
