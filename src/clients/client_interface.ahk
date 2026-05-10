@@ -57,4 +57,9 @@ class ClientInterface {
         }
         Sleep(ms)
     }
+
+    copyWindowName() {
+        activeTitle := WinGetTitle("A")
+        A_Clipboard := activeTitle
+    }
 }

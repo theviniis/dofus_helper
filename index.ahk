@@ -1,12 +1,11 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0
 #HotIf WinActive("ahk_exe Dofus.exe")
-#Include ./src/utils/use_zap.ahk
-#Include ./src/utils/accounts.ahk
-#Include ./src/utils/zap_coordinator.ahk
-#Include ./src/utils/copy_window_name.ahk
-#Include ./src/utils/client_interface.ahk
-#Include ./src/utils/travel.ahk
+#Include ./src/clients/use_zap.ahk
+#Include ./src/clients/accounts.ahk
+#Include ./src/clients/zap_coordinator.ahk
+#Include ./src/clients/client_interface.ahk
+#Include ./src/clients/travel.ahk
 
 SetTitleMatchMode 3
 SendMode "Input"
@@ -54,4 +53,4 @@ $h:: zapNav.use()
 $+h:: coordinator.runAll()
 $^Esc:: zapNav.stop()
 
-$#c:: copyWindowName()
+$#c:: clientIF.copyWindowName()
