@@ -25,6 +25,8 @@ class ZapCoordinator {
             }
         }
 
+        this.zapNav.destination := ""
+
         for accountName in openAccounts {
             this.accountMgr.focus(accountName)
             Sleep(200)
@@ -34,6 +36,7 @@ class ZapCoordinator {
             }
         }
 
+        this.zapNav.destination := ""
         WinActivate(priorWindow)
     }
 }
