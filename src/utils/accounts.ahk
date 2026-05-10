@@ -7,7 +7,6 @@ class AccountManager {
 
     focus(accountName) {
         windowName := this.accountList.Get(accountName)
-        ToolTip(accountName . '  ' . windowName)
         WinWait(windowName)
         WinActivate(windowName)
     }
