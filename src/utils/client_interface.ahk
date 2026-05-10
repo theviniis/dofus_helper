@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0
 
+SLEEP_TIME := 200
+
 class ClientInterface {
     focusWindow() {
         WinActivate("ahk_exe Dofus.exe")
@@ -7,7 +9,7 @@ class ClientInterface {
 
     openChat() {
         this.focusWindow()
-        Sleep(200)
+        Sleep(SLEEP_TIME)
         Send(" ")
     }
 
