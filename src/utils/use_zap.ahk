@@ -1,45 +1,44 @@
 #Requires AutoHotkey v2.0
-#Include go_to_travel.ahk
-#Include when_pixel_matches.ahk
+#Include does_pixel_matches.ahk
 
 class ZapNavigator {
-    __New(config) {
-        this.config := config
+    __New(travelersBagConfig) {
+        this.travelersBagConfig := travelersBagConfig
         this.running := false
         this.destination := ""
     }
 
     isOnTravelScreen {
         get {
-            return whenPixelMatches(
-                this.config.sacoDeViagens.zap.detect.pos[1],
-                this.config.sacoDeViagens.zap.detect.pos[2],
-                this.config.sacoDeViagens.zap.detect.color,
+            return doesPixelMatches(
+                this.travelersBagConfig.zap.detect.pos[1],
+                this.travelersBagConfig.zap.detect.pos[2],
+                this.travelersBagConfig.zap.detect.color,
             )
         }
     }
 
     isZapInterfaceOpen {
         get {
-            return whenPixelMatches(
-                this.config.sacoDeViagens.interfaceZap.detect.pos[1],
-                this.config.sacoDeViagens.interfaceZap.detect.pos[2],
-                this.config.sacoDeViagens.interfaceZap.detect.color,
+            return doesPixelMatches(
+                this.travelersBagConfig.interfaceZap.detect.pos[1],
+                this.travelersBagConfig.interfaceZap.detect.pos[2],
+                this.travelersBagConfig.interfaceZap.detect.color,
             )
         }
     }
 
     clickZap() {
         Click(
-            this.config.sacoDeViagens.zap.click[1],
-            this.config.sacoDeViagens.zap.click[2],
+            this.travelersBagConfig.zap.click[1],
+            this.travelersBagConfig.zap.click[2],
         )
     }
 
     clickSearch() {
         Click(
-            this.config.sacoDeViagens.barraBusca.click[1],
-            this.config.sacoDeViagens.barraBusca.click[2],
+            this.travelersBagConfig.barraBusca.click[1],
+            this.travelersBagConfig.barraBusca.click[2],
         )
     }
 
