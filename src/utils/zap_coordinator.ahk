@@ -7,6 +7,7 @@ class ZapCoordinator {
     }
 
     runAll() {
+        priorWindow := WinExist("A")
         openAccounts := this.accountMgr.getOpenAccounts()
 
         if (openAccounts.Length = 0) {
@@ -21,5 +22,7 @@ class ZapCoordinator {
                 return
             }
         }
+
+        WinActivate(priorWindow)
     }
 }
