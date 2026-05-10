@@ -62,8 +62,18 @@ class ZapNavigator {
     }
 
     use() {
+        if (this.destination = "") {
+            destination := InputBox(
+                "Para onde deseja viajar?",
+                "Destino",
+            )
+            if (destination.result != "OK" or destination.value = "") {
+                return false
+            }
+            this.destination := destination.value
+        }
+
         this.running := true
-        destination := this.getDestination()
 
         while (this.running) {
             isZapOpen := this.isZapInterfaceOpen
@@ -71,9 +81,9 @@ class ZapNavigator {
 
             if (isZapOpen) {
                 this.clickSearch()
-                if (destination != "") {
+                if (this.destination != "") {
                     Sleep(300)
-                    Send(destination)
+                    Send(this.destination)
                     Sleep(300)
                     Send("{Enter}")
                 }
@@ -90,6 +100,7 @@ class ZapNavigator {
         }
 
         this.running := false
+        return true
     }
 
     stop() {
