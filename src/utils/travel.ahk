@@ -16,7 +16,7 @@ class TravelNavigator {
             return false
         }
 
-        if !RegExMatch(input.value, "^\d+,\d+$") {
+        if !RegExMatch(input.value, "^-?\d+,-?\d+$") {
             ToolTip("Formato inválido. Use xx,yy")
             Sleep(1500)
             ToolTip("")
