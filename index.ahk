@@ -42,7 +42,7 @@ clientIF := ClientInterface(config)
 acc := AccountManager(config.accountList, clientIF)
 zapNav := ZapNavigator(config.sacoDeViagens, clientIF)
 travelNav := TravelNavigator(clientIF)
-coordinator := ZapCoordinator(zapNav, acc)
+coordinator := ZapCoordinator(zapNav, acc, clientIF)
 
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')

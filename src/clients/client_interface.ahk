@@ -62,4 +62,8 @@ class ClientInterface {
         activeTitle := WinGetTitle("A")
         A_Clipboard := activeTitle
     }
+
+    allowAllyToFollowLeader() {
+        Send("{Alt down}z{Alt up}")
+    }
 }

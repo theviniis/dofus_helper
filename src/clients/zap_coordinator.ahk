@@ -1,9 +1,12 @@
 #Requires AutoHotkey v2.0
 
+SLEEP_TIME := 250
+
 class ZapCoordinator {
-    __New(zapNav, accountMgr) {
+    __New(zapNav, accountMgr, clientIF) {
         this.zapNav := zapNav
         this.accountMgr := accountMgr
+        this.clientIF := clientIF
     }
 
     runAll() {
@@ -29,7 +32,7 @@ class ZapCoordinator {
 
         for accountName in openAccounts {
             this.accountMgr.focus(accountName)
-            Sleep(200)
+            Sleep(SLEEP_TIME)
 
             if (!this.zapNav.use(false)) {
                 return
@@ -38,5 +41,9 @@ class ZapCoordinator {
 
         this.zapNav.destination := ""
         WinActivate(priorWindow)
+
+        Sleep(SLEEP_TIME)
+        this.clientIF.allowAllyToFollowLeader()
+
     }
 }
