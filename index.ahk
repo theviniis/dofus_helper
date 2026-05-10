@@ -3,6 +3,7 @@
 #HotIf WinActive("ahk_exe Dofus.exe")
 #Include ./src/utils/use_zap.ahk
 #Include ./src/utils/accounts.ahk
+#Include ./src/utils/zap_coordinator.ahk
 #Include ./src/utils/copy_window_name.ahk
 
 SetTitleMatchMode 3
@@ -36,14 +37,15 @@ config := {
     }
 }
 
-acc := Accounts(config.accountList)
-zap := ZapNavigator(config.sacoDeViagens)
+acc := AccountManager(config.accountList)
+zapNav := ZapNavigator(config.sacoDeViagens)
+coordinator := ZapCoordinator(zapNav, acc)
 
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
 $#3:: acc.focus('sac')
 
-$h:: zap.use()
+$h:: coordinator.runAll()
 Esc:: zap.stop()
 
 $#c:: copyWindowName()
