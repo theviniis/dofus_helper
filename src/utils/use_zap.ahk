@@ -6,6 +6,7 @@ class ZapNavigator {
     __New(config) {
         this.config := config
         this.running := false
+        this.destination := ""
     }
 
     isOnTravelScreen {
@@ -47,12 +48,16 @@ class ZapNavigator {
     }
 
     getDestination() {
+        if (this.destination != "") {
+            return this.destination
+        }
         destination := InputBox(
             "Para onde deseja viajar?",
             "Destino",
         )
         if (destination.result = "OK" and destination.value != "") {
-            return destination.value
+            this.destination := destination.value
+            return this.destination
         }
         return ""
     }
