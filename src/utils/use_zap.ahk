@@ -46,6 +46,24 @@ class ZapNavigator {
         Send("h")
     }
 
+    getDestination() {
+        destination := InputBox(
+            "Para onde deseja viajar?",
+            "Destino",
+            ,
+            ,
+            ,
+            ,
+            ,
+            ,
+            ""
+        )
+        if (destination.result = "OK" and destination.value != "") {
+            return destination.value
+        }
+        return ""
+    }
+
     use() {
         this.running := true
 
