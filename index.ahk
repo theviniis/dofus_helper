@@ -33,15 +33,15 @@ config := {
                 color: 0x173238
             }
         },
-        barraBusca: {
+        search: {
             click: [1334, 515]
         }
     }
 }
 
-acc := AccountManager(config.accountList)
-clientIF := ClientInterface()
-zapNav := ZapNavigator(config.sacoDeViagens)
+clientIF := ClientInterface(config)
+acc := AccountManager(config.accountList, clientIF)
+zapNav := ZapNavigator(config.sacoDeViagens, clientIF)
 travelNav := TravelNavigator(clientIF)
 coordinator := ZapCoordinator(zapNav, acc)
 
