@@ -47,10 +47,10 @@ coordinator := ZapCoordinator(zapNav, acc, clientIF)
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
 $#3:: acc.focus('sac')
-$t:: travelNav.use()
 
-$h:: zapNav.use()
-$+h:: coordinator.runAll()
+$+t:: travelNav.use()
+$+h:: zapNav.use()
+$^h:: coordinator.runAll()
 $^Esc:: zapNav.stop()
 
 $#c:: clientIF.copyWindowName()
