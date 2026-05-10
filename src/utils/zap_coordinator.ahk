@@ -16,8 +16,13 @@ class ZapCoordinator {
 
         activeAccount := this.accountMgr.getAccountByWindow(priorWindow)
         if (activeAccount != "") {
-            openAccounts.Remove(activeAccount)
-            openAccounts.InsertAt(1, activeAccount)
+            for i, name in openAccounts {
+                if (name = activeAccount) {
+                    openAccounts.RemoveAt(i)
+                    openAccounts.InsertAt(1, activeAccount)
+                    break
+                }
+            }
         }
 
         for accountName in openAccounts {
