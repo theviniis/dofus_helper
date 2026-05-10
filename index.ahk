@@ -46,6 +46,6 @@ $#2:: acc.focus('eni')
 $#3:: acc.focus('sac')
 
 $h:: coordinator.runAll()
-Esc:: zap.stop()
+Esc:: zapNav.stop()
 
 $#c:: copyWindowName()
