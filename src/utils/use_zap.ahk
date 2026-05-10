@@ -72,7 +72,12 @@ class ZapNavigator {
             isTravelOpen := this.isOnTravelScreen
 
             if (isZapOpen) {
+                destination := this.getDestination()
                 this.clickSearch()
+                if (destination != "") {
+                    Sleep(300)
+                    Send(destination)
+                }
                 break
             }
             else if (isTravelOpen) {
