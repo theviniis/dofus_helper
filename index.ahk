@@ -18,24 +18,24 @@ config := {
         'eni', 'Cura-no-sigilo - Eniripsa - 3.5.14.18 - Release',
         'sac', 'Berserker-no-sigilo - Sacrier - 3.5.14.18 - Release',
     ),
-    sacoDeViagens: {
-        zap: {
-            click: [1165, 554],
-            detect: {
-                pos: [1445, 429],
-                color: 0xA75F20
-            }
-        },
-        interfaceZap: {
-            detect: {
-                pos: [1595, 410],
-                color: 0x173238
-            }
-        },
-        search: {
-            click: [1334, 515]
-        }
-    }
+    sacoDeViagens: Map(
+        'zap', Map(
+            'click', [1165, 554],
+            'detect', Map(
+                'pos', [1445, 429],
+                'color', 0xA75F20
+            )
+        ),
+        'interfaceZap', Map(
+            'detect', Map(
+                'pos', [1595, 410],
+                'color', 0x173238
+            )
+        ),
+        'search', Map(
+            'click', [1334, 515]
+        )
+    )
 }
 
 clientIF := ClientInterface(config)
