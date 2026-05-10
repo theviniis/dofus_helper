@@ -1,50 +1,35 @@
 #Requires AutoHotkey v2.0
-#Include does_pixel_matches.ahk
 
-SLEEP_TIME := 500
 class ZapNavigator {
-    __New(travelersBagConfig) {
+    __New(travelersBagConfig, clientIF) {
         this.travelersBagConfig := travelersBagConfig
+        this.clientIF := clientIF
         this.running := false
         this.destination := ""
     }
 
     isOnTravelScreen {
         get {
-            return doesPixelMatches(
-                this.travelersBagConfig.zap.detect.pos[1],
-                this.travelersBagConfig.zap.detect.pos[2],
-                this.travelersBagConfig.zap.detect.color,
-            )
+            return this.clientIF.pixelMatches("zap")
         }
     }
 
     isZapInterfaceOpen {
         get {
-            return doesPixelMatches(
-                this.travelersBagConfig.interfaceZap.detect.pos[1],
-                this.travelersBagConfig.interfaceZap.detect.pos[2],
-                this.travelersBagConfig.interfaceZap.detect.color,
-            )
+            return this.clientIF.pixelMatches("interfaceZap")
         }
     }
 
     clickZap() {
-        Click(
-            this.travelersBagConfig.zap.click[1],
-            this.travelersBagConfig.zap.click[2],
-        )
+        this.clientIF.clickAt("zap")
     }
 
     clickSearch() {
-        Click(
-            this.travelersBagConfig.barraBusca.click[1],
-            this.travelersBagConfig.barraBusca.click[2],
-        )
+        this.clientIF.clickAt("search")
     }
 
     travel() {
-        Send("h")
+        this.clientIF.sendKey("h")
     }
 
     use(forceInput := true) {
@@ -67,10 +52,10 @@ class ZapNavigator {
 
             if (isZapOpen) {
                 this.clickSearch()
-                Sleep(SLEEP_TIME)
-                Send(this.destination)
-                Sleep(SLEEP_TIME)
-                Send("{Enter}")
+                this.clientIF.sleep()
+                this.clientIF.sendText(this.destination)
+                this.clientIF.sleep()
+                this.clientIF.confirm()
                 break
             }
             else if (isTravelOpen) {
@@ -80,7 +65,7 @@ class ZapNavigator {
                 this.travel()
             }
 
-            Sleep(SLEEP_TIME)
+            this.clientIF.sleep()
         }
 
         this.running := false
