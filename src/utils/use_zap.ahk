@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 #Include does_pixel_matches.ahk
 
+SLEEP_TIME := 500
 class ZapNavigator {
     __New(travelersBagConfig) {
         this.travelersBagConfig := travelersBagConfig
@@ -66,9 +67,9 @@ class ZapNavigator {
 
             if (isZapOpen) {
                 this.clickSearch()
-                Sleep(300)
+                Sleep(SLEEP_TIME)
                 Send(this.destination)
-                Sleep(300)
+                Sleep(SLEEP_TIME)
                 Send("{Enter}")
                 break
             }
@@ -79,7 +80,7 @@ class ZapNavigator {
                 this.travel()
             }
 
-            Sleep(500)
+            Sleep(SLEEP_TIME)
         }
 
         this.running := false
