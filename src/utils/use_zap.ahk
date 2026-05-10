@@ -70,6 +70,8 @@ class ZapNavigator {
                 if (destination != "") {
                     Sleep(300)
                     Send(destination)
+                    Sleep(300)
+                    Send("{Enter}")
                 }
                 break
             }
