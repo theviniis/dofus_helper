@@ -47,6 +47,6 @@ $#3:: acc.focus('sac')
 
 $h:: zapNav.use()
 $+h:: coordinator.runAll()
-Esc:: zapNav.stop()
+$^Esc:: zapNav.stop()
 
 $#c:: copyWindowName()
