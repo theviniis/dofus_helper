@@ -20,4 +20,13 @@ class AccountManager {
         }
         return openAccounts
     }
+
+    getAccountByWindow(windowId) {
+        for accountName, windowName in this.accountList {
+            if WinExist(windowName) = windowId {
+                return accountName
+            }
+        }
+        return ""
+    }
 }
