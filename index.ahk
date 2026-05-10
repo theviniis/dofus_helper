@@ -5,6 +5,8 @@
 #Include ./src/utils/accounts.ahk
 #Include ./src/utils/zap_coordinator.ahk
 #Include ./src/utils/copy_window_name.ahk
+#Include ./src/utils/client_interface.ahk
+#Include ./src/utils/travel.ahk
 
 SetTitleMatchMode 3
 SendMode "Input"
@@ -38,12 +40,15 @@ config := {
 }
 
 acc := AccountManager(config.accountList)
+clientIF := ClientInterface()
 zapNav := ZapNavigator(config.sacoDeViagens)
+travelNav := TravelNavigator(clientIF)
 coordinator := ZapCoordinator(zapNav, acc)
 
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
 $#3:: acc.focus('sac')
+$t:: travelNav.use()
 
 $h:: zapNav.use()
 $+h:: coordinator.runAll()
