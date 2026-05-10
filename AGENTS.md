@@ -28,6 +28,8 @@ index.ahk
 - Pixel coordinates and colors stored in config maps
 - `#Include` for shared utilities; relative paths from project root
 - No linter/formatter configured; manual review required
+- Always use Solid Responsability Principle
+- Always use Dependency Inversion
 
 ## Architecture Notes
 
@@ -45,6 +47,7 @@ index.ahk (hotkey bindings + config)
 **Data flow:** Hotkey → instantiates classes from config → pixel detection loop → UI interaction (Click/Send).
 
 **Hotkeys defined in `index.ahk`:**
+
 - `Win+1/2/3` — Focus account (iop/eni/sac)
 - `h` — Trigger ZapNavigator (travel via Zap)
 - `Esc` — Stop ZapNavigator loop
@@ -53,6 +56,7 @@ index.ahk (hotkey bindings + config)
 ## Testing Strategy
 
 > TODO: No automated tests configured. Manual testing required:
+>
 > - Test hotkey bindings in-game
 > - Verify pixel coordinates match current Dofus version
 > - Verify window titles in config match active game windows
@@ -77,8 +81,6 @@ index.ahk (hotkey bindings + config)
 - New hotkeys — Add `hotkey:: function()` pairs in `index.ahk`
 - New utilities — Add to `src/utils/` and `#Include` in `index.ahk`
 
-## Further Reading
+## Rules
 
-- `docs/superpowers/specs/2026-05-09-zap-navigator-inputbox-design.md` — Zap InputBox feature spec
-- `docs/superpowers/plans/2026-05-10-zap-navigator-history-plan.md` — History suggestions plan
-- AutoHotkey v2.0 docs: https://www.autohotkey.com/docs/v2/
+- ⚠️ NEVER COMMIT CHANGES UNLESS USER ASKS!
