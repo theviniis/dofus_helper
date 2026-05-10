@@ -46,21 +46,6 @@ class ZapNavigator {
         Send("h")
     }
 
-    getDestination() {
-        if (this.destination != "") {
-            return this.destination
-        }
-        destination := InputBox(
-            "Para onde deseja viajar?",
-            "Destino",
-        )
-        if (destination.result = "OK" and destination.value != "") {
-            this.destination := destination.value
-            return this.destination
-        }
-        return ""
-    }
-
     use() {
         if (this.destination = "") {
             destination := InputBox(
@@ -81,12 +66,10 @@ class ZapNavigator {
 
             if (isZapOpen) {
                 this.clickSearch()
-                if (this.destination != "") {
-                    Sleep(300)
-                    Send(this.destination)
-                    Sleep(300)
-                    Send("{Enter}")
-                }
+                Sleep(300)
+                Send(this.destination)
+                Sleep(300)
+                Send("{Enter}")
                 break
             }
             else if (isTravelOpen) {
