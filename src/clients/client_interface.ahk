@@ -7,7 +7,7 @@ class ClientInterface {
     }
 
     focusWindow(windowName?) {
-        if (windowName = "") {
+        if (!IsSet(windowName) or windowName = "") {
             WinActivate("ahk_exe Dofus.exe")
         } else {
             WinActivate(windowName)
