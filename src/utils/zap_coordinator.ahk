@@ -29,7 +29,7 @@ class ZapCoordinator {
             this.accountMgr.focus(accountName)
             Sleep(200)
 
-            if (!this.zapNav.use()) {
+            if (!this.zapNav.use(false)) {
                 return
             }
         }

@@ -47,8 +47,8 @@ class ZapNavigator {
         Send("h")
     }
 
-    use() {
-        if (this.destination = "") {
+    use(forceInput := true) {
+        if (this.destination = "" || forceInput) {
             destination := InputBox(
                 "Para onde deseja viajar?",
                 "Destino",
