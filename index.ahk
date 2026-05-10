@@ -37,7 +37,7 @@ $#2:: activateWindow("Cura-no-sigilo - Eniripsa - 3.5.14.18 - Release")
 $#3:: activateWindow("Berserker-no-sigilo - Sacrier - 3.5.14.18 - Release")
 $#4:: activateWindow("Arqueiro-no-sigilo")
 
-$h:: zap.use('bonta')
+$h:: zap.use()
 Esc:: zap.stop()
 
 $#c:: copyWindowName()
