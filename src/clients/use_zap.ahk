@@ -51,8 +51,8 @@ class ZapNavigator {
             isTravelOpen := this.isOnTravelScreen
 
             if (isZapOpen) {
-                this.clickSearch()
-                this.clientIF.sleep()
+                ; this.clickSearch()
+                ; this.clientIF.sleep()
                 this.clientIF.sendText(this.destination)
                 this.clientIF.sleep()
                 this.clientIF.confirm()
