@@ -62,6 +62,6 @@ class ClientInterface {
     }
 
     allowAllyToFollowLeader() {
-        Send("{Alt down}z{Alt up}")
+        Send("^z")
     }
 }
