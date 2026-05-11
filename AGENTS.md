@@ -5,8 +5,10 @@ AutoHotkey v2.0 automation scripts for the game **Dofus**, providing hotkey-base
 ## Repository Structure
 
 - `index.ahk` — Main entry point; hotkey bindings, DI wiring, config
-- `src/utils/` — Utility modules (ZapNavigator, AccountManager, ZapCoordinator, pixel detection)
-- `docs/superpowers/` — Feature specs and implementation plans (nested by date)
+- `src/clients/` — Game client automation modules (accounts, travel, zap coordinator)
+- `src/utils/` — General-purpose utilities (pixel detection, tooltips)
+- `docs/superpowers/specs/` — Feature specifications (per date)
+- `docs/superpowers/plans/` — Implementation plans (per date)
 - `.vscode/` — Editor settings
 
 ## Build & Development Commands
@@ -26,7 +28,7 @@ index.ahk
 - AutoHotkey v2.0 syntax enforced via `#Requires AutoHotkey v2.0`
 - **Single Responsibility Principle** — one class, one responsibility
 - **Dependency Inversion** — `ZapCoordinator` receives dependencies via constructor
-- Classes: `ZapNavigator` (UI interaction), `AccountManager` (accounts), `ZapCoordinator` (orchestration)
+- Modules: `ZapNavigator` (UI interaction), `AccountManager` (accounts), `ZapCoordinator` (orchestration)
 - Pixel coordinates and colors stored in config maps
 - `#Include` for shared utilities; relative paths from project root
 - No linter/formatter configured; manual review required
@@ -35,16 +37,16 @@ index.ahk
 
 ```
 index.ahk (hotkeys + DI composition root)
-    ├── AccountManager (src/utils/accounts.ahk)
+    ├── AccountManager (src/clients/accounts.ahk)
     │       ├── focus(accountName) → WinActivate
     │       └── getOpenAccounts() → array of open account names
     │
-    ├── ZapNavigator (src/utils/use_zap.ahk)
+    ├── ZapNavigator (src/clients/use_zap.ahk)
     │       ├── isZapInterfaceOpen / isOnTravelScreen → pixel detection
     │       ├── use() → returns Boolean (true=success, false=cancelled)
     │       └── destination property → reused across accounts
     │
-    └── ZapCoordinator (src/utils/zap_coordinator.ahk)
+    └── ZapCoordinator (src/clients/zap_coordinator.ahk)
             ├── __New(zapNav, accountMgr) → DIP injection
             └── runAll() → orchestrates multi-account zap
 ```
@@ -93,6 +95,8 @@ index.ahk (hotkeys + DI composition root)
 
 - `docs/superpowers/specs/2026-05-10-zap-multi-account.md` — Multi-account zap specification
 - `docs/superpowers/plans/2026-05-10-zap-multi-account-plan.md` — Implementation plan
+- `docs/superpowers/specs/` — All feature specifications
+- `docs/superpowers/plans/` — All implementation plans
 
 ## Rules
 
