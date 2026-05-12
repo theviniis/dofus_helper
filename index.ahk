@@ -22,13 +22,12 @@ $#4:: account.focus('sac')
 
 $^t:: travel.use()
 $+h:: zap.use()
-$^h:: zap.useAll()
+
+$^h:: {
+    account.focus('sac')
+    zap.useAll()
+}
+
 $^Esc:: zap.stop()
 
 $#c:: client.copyWindowName()
-
-$F1:: {
-
-    data := Jxon_Load_File("config.json")
-    MsgBox(data["accounts"]["iop"])
-}
