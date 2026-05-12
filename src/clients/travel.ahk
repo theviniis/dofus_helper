@@ -3,8 +3,8 @@
 SLEEP_TIME := 200
 
 class TravelNavigator {
-    __New(clientInterface) {
-        this.clientIF := clientInterface
+    __New(client) {
+        this.client := client
     }
 
     use() {
@@ -24,15 +24,15 @@ class TravelNavigator {
             return false
         }
 
-        this.clientIF.openChat()
+        this.client.openChat()
         Sleep(SLEEP_TIME)
         destination := "/travel " . RegExReplace(m[1], "\s", "")
-        this.clientIF.clearInput()
-        this.clientIF.sendText(destination)
+        this.client.clearInput()
+        this.client.sendText(destination)
         Sleep(SLEEP_TIME)
-        this.clientIF.confirm()
-        this.clientIF.sleep(1000)
-        this.clientIf.sendKey("{Esc}")
+        this.client.confirm()
+        this.client.sleep(1000)
+        this.client.sendKey("{Esc}")
         return true
     }
 }

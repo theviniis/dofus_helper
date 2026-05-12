@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0
 
-class HistoryManager {
+class TravelHistory {
     __New(limit := 10, filePath := "history.txt") {
         this.limit := limit
         this.filePath := filePath

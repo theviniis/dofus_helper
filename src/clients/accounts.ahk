@@ -1,21 +1,21 @@
 #Requires AutoHotkey v2.0
 
 class AccountManager {
-    __New(accountList, clientIF) {
+    __New(accountList, client) {
         this.accountList := accountList
-        this.clientIF := clientIF
+        this.client := client
     }
 
     focus(accountName) {
         windowName := this.accountList.Get(accountName)
-        this.clientIF.waitWindow(windowName)
-        this.clientIF.focusWindow(windowName)
+        this.client.waitWindow(windowName)
+        this.client.focusWindow(windowName)
     }
 
     getOpenAccounts() {
         openAccounts := []
         for accountName, windowName in this.accountList {
-            if this.clientIF.windowExists(windowName) {
+            if this.client.windowExists(windowName) {
                 openAccounts.Push(accountName)
             }
         }

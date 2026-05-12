@@ -1,36 +1,37 @@
 #Requires AutoHotkey v2.0
 
 class ZapNavigator {
-    __New(travelersBagConfig, clientIF, historyMgr) {
+    __New(travelersBagConfig, client, travelHistory, account) {
         this.travelersBagConfig := travelersBagConfig
-        this.clientIF := clientIF
-        this.historyMgr := historyMgr
+        this.client := client
+        this.travelHistory := travelHistory
         this.running := false
         this.destination := ""
+        this.account := account
     }
 
     isOnTravelScreen {
         get {
-            return this.clientIF.pixelMatches("zap")
+            return this.client.pixelMatches("zap")
         }
     }
 
     isZapInterfaceOpen {
         get {
-            return this.clientIF.pixelMatches("interfaceZap")
+            return this.client.pixelMatches("interfaceZap")
         }
     }
 
     clickZap() {
-        this.clientIF.clickAt("zap")
+        this.client.clickAt("zap")
     }
 
     clickSearch() {
-        this.clientIF.clickAt("search")
+        this.client.clickAt("search")
     }
 
     travel() {
-        this.clientIF.sendKey("h")
+        this.client.sendKey("h")
     }
 
     getDestination() {
@@ -38,7 +39,7 @@ class ZapNavigator {
             return this.destination
         }
 
-        allDests := this.historyMgr.getAll()
+        allDests := this.travelHistory.getAll()
         hasHistory := allDests.Length > 0
         state := { result: "", done: false }
 
@@ -87,7 +88,7 @@ class ZapNavigator {
 
         if (state.result != "") {
             this.destination := state.result
-            this.historyMgr.add(state.result)
+            this.travelHistory.add(state.result)
         }
 
         return this.destination
@@ -113,30 +114,62 @@ class ZapNavigator {
 
             if (isZapOpen) {
                 this.clickSearch()
-                this.clientIF.sleep()
-                this.clientIF.clearInput()
-                this.clientIF.sleep()
-                this.clientIF.sendText(this.destination)
-                this.clientIF.sleep()
-                this.clientIF.confirm()
+                this.client.sleep()
+                this.client.clearInput()
+                this.client.sleep()
+                this.client.sendText(this.destination)
+                this.client.sleep()
+                this.client.confirm()
                 break
-            }
-            else if (isTravelOpen) {
+            } else if (isTravelOpen) {
                 this.clickZap()
-            }
-            else {
+            } else {
                 this.travel()
-                this.clientIF.sleep(500)
-                ; while (!this.isOnTravelScreen && !this.isZapInterfaceOpen) {
-                ;     this.clientIF.sleep()
-                ; }
+                this.client.sleep(500)
             }
 
-            this.clientIF.sleep()
+            this.client.sleep()
         }
 
         this.running := false
         return true
+    }
+
+    useAll() {
+        priorWindow := WinExist("A")
+        openAccounts := this.account.getOpenAccounts()
+
+        if (openAccounts.Length = 0) {
+            return
+        }
+
+        activeAccount := this.account.getAccountByWindow(priorWindow)
+        if (activeAccount != "") {
+            for i, name in openAccounts {
+                if (name = activeAccount) {
+                    openAccounts.RemoveAt(i)
+                    openAccounts.InsertAt(1, activeAccount)
+                    break
+                }
+            }
+        }
+
+        this.destination := ""
+
+        for accountName in openAccounts {
+            this.account.focus(accountName)
+            Sleep(SLEEP_TIME)
+
+            if (!this.use(false)) {
+                return
+            }
+        }
+
+        this.destination := ""
+        WinActivate(priorWindow)
+
+        Sleep(SLEEP_TIME)
+        this.client.allowAllyToFollowLeader()
     }
 
     stop() {

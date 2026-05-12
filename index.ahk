@@ -1,10 +1,9 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0
 #HotIf WinActive("ahk_exe Dofus.exe")
-#Include ./src/clients/history_manager.ahk
-#Include ./src/clients/use_zap.ahk
+#Include ./src/clients/travel_history.ahk
+#Include ./src/clients/zap.ahk
 #Include ./src/clients/accounts.ahk
-#Include ./src/clients/zap_coordinator.ahk
 #Include ./src/clients/client_interface.ahk
 #Include ./src/clients/travel.ahk
 
@@ -40,21 +39,20 @@ config := {
     )
 }
 
-clientIF := ClientInterface(config)
-acc := AccountManager(config.accountList, clientIF)
-historyMgr := HistoryManager()
-zapNav := ZapNavigator(config.sacoDeViagens, clientIF, historyMgr)
-travelNav := TravelNavigator(clientIF)
-coordinator := ZapCoordinator(zapNav, acc, clientIF)
+client := ClientInterface(config)
+acc := AccountManager(config.accountList, client)
+travel := TravelHistory()
+zap := ZapNavigator(config.sacoDeViagens, client, travel, acc)
+travel := TravelNavigator(client)
 
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
 $#3:: acc.focus('cra')
 $#4:: acc.focus('sac')
 
-$^t:: travelNav.use()
-$+h:: zapNav.use()
-$^h:: coordinator.runAll()
-$^Esc:: zapNav.stop()
+$^t:: travel.use()
+$+h:: zap.use()
+$^h:: zap.useAll()
+$^Esc:: zap.stop()
 
-$#c:: clientIF.copyWindowName()
+$#c:: client.copyWindowName()
