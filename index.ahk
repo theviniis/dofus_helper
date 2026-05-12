@@ -1,33 +1,25 @@
 #Requires AutoHotkey v2.0
+
 #Include ./src/utils/header.ahk
 #Include ./src/utils/JSON.ahk
-#Include ./src/clients/travel_history.ahk
-#Include ./src/clients/zap.ahk
-#Include ./src/clients/accounts.ahk
-#Include ./src/clients/client.ahk
-#Include ./src/clients/travel.ahk
+#Include ./src/utils/init.ahk
 
 config := Jxon_Load_File("config.json")
+app := Init(config)
 
-client := ClientInterface(config)
-account := AccountManager(config["accounts"], client)
-travelHist := TravelHistory()
-zap := ZapNavigator(config["travelersBag"], client, travelHist, account)
-travel := TravelNavigator(client)
+$#1:: app.account.focus('iop')
+$#2:: app.account.focus('eni')
+$#3:: app.account.focus('cra')
+$#4:: app.account.focus('sac')
 
-$#1:: account.focus('iop')
-$#2:: account.focus('eni')
-$#3:: account.focus('cra')
-$#4:: account.focus('sac')
-
-$^t:: travel.use()
-$+h:: zap.use()
+$^t:: app.travel.use()
+$+h:: app.zap.use()
 
 $^h:: {
-    account.focus('sac')
-    zap.useAll()
+    app.account.focus('sac')
+    app.zap.useAll()
 }
 
-$^Esc:: zap.stop()
+$^Esc:: app.zap.stop()
 
-$#c:: client.copyWindowName()
+$#c:: app.client.copyWindowName()
