@@ -17,6 +17,7 @@ config := {
     accountList: Map(
         'iop', 'Bate-no-sigilo - Iop - 3.5.14.18 - Release',
         'eni', 'Cura-no-sigilo - Eniripsa - 3.5.14.18 - Release',
+        'cra', 'Arqueira-no-sigilo - Cra - 3.5.14.18 - Release',
         'sac', 'Berserker-no-sigilo - Sacrier - 3.5.14.18 - Release',
     ),
     sacoDeViagens: Map(
@@ -48,7 +49,8 @@ coordinator := ZapCoordinator(zapNav, acc, clientIF)
 
 $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
-$#3:: acc.focus('sac')
+$#3:: acc.focus('cra')
+$#4:: acc.focus('sac')
 
 $^t:: travelNav.use()
 $+h:: zapNav.use()

@@ -27,9 +27,12 @@ class TravelNavigator {
         this.clientIF.openChat()
         Sleep(SLEEP_TIME)
         destination := "/travel " . RegExReplace(m[1], "\s", "")
+        this.clientIF.clearInput()
         this.clientIF.sendText(destination)
         Sleep(SLEEP_TIME)
         this.clientIF.confirm()
+        this.clientIF.sleep(1000)
+        this.clientIf.sendKey("{Esc}")
         return true
     }
 }

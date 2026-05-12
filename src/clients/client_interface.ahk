@@ -54,6 +54,8 @@ class ClientInterface {
 
     clearInput() {
         Send("^a")
+        this.sleep()
+        Send("{Backspace}")
     }
 
     sleep(ms := SLEEP_TIME) {
