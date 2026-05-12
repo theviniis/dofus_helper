@@ -47,7 +47,7 @@ index.ahk (hotkeys + DI composition root)
     │       ├── pixelMatches(coordName) → PixelGetColor comparison
     │       └── sendText/sendKey/confirm → Send keystrokes
     │
-    ├── AccountManager (src/clients/accounts.ahk)
+    ├── AccountManager (src/clients/account.ahk)
     │       ├── focus(accountName) → lookup window + focus
     │       ├── getOpenAccounts() → array of open account names
     │       └── getAccountByWindow(windowId) → reverse lookup
