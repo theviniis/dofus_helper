@@ -52,6 +52,10 @@ class ClientInterface {
         return pixelColor == detect['color']
     }
 
+    clearInput() {
+        Send("^a")
+    }
+
     sleep(ms := SLEEP_TIME) {
         Sleep(ms)
     }

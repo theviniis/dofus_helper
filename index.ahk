@@ -1,6 +1,7 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0
 #HotIf WinActive("ahk_exe Dofus.exe")
+#Include ./src/clients/history_manager.ahk
 #Include ./src/clients/use_zap.ahk
 #Include ./src/clients/accounts.ahk
 #Include ./src/clients/zap_coordinator.ahk
@@ -40,7 +41,8 @@ config := {
 
 clientIF := ClientInterface(config)
 acc := AccountManager(config.accountList, clientIF)
-zapNav := ZapNavigator(config.sacoDeViagens, clientIF)
+historyMgr := HistoryManager()
+zapNav := ZapNavigator(config.sacoDeViagens, clientIF, historyMgr)
 travelNav := TravelNavigator(clientIF)
 coordinator := ZapCoordinator(zapNav, acc, clientIF)
 

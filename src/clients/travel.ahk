@@ -16,7 +16,8 @@ class TravelNavigator {
             return false
         }
 
-        if !RegExMatch(input.value, "^-?\d+,-?\d+$") && !RegExMatch(input.value, "i)^/travel\s*-?\d+,-?\d+$") {
+        ; Aceita: xx,yy | [xx,yy | xx,yy] | [xx,yy] | /travel xx,yy (e variantes com colchetes e espaços)
+        if !RegExMatch(Trim(input.value), "i)^(?:/travel\s*)?\[?\s*(-?\d+\s*,\s*-?\d+)\s*\]?$", &m) {
             ToolTip("Formato inválido. Use xx,yy")
             Sleep(1500)
             ToolTip("")
@@ -25,10 +26,7 @@ class TravelNavigator {
 
         this.clientIF.openChat()
         Sleep(SLEEP_TIME)
-        destination := input.value
-        if !RegExMatch(destination, "i)^/travel") {
-            destination := "/travel " . destination
-        }
+        destination := "/travel " . RegExReplace(m[1], "\s", "")
         this.clientIF.sendText(destination)
         Sleep(SLEEP_TIME)
         this.clientIF.confirm()
