@@ -86,24 +86,71 @@ index.ahk (hotkeys + raiz DI)
 
 ## Configuração
 
-As coordenadas de pixel e nomes de janela estão em `config.json`:
+Todas as configurações ficam em `config.json`:
 
 ```json
 {
   "accounts": {
-    "iop": "Bate-no-sigilo - Iop - 3.5.14.18 - Release"
+    "NOME_CURTO": "Nome completo da janela do Dofus"
   },
   "travelersBag": {
     "zap": {
-      "click": [1165, 554],
-      "detect": { "pos": [1445, 429], "color": "0xA75F20" }
+      "click": [X, Y],
+      "detect": { "pos": [X, Y], "color": "0xRRGGBB" }
     }
   }
 }
 ```
 
-- `accounts` — Nome das janelas do Dofus (verifique com `Win+c`)
-- `travelersBag` — Coordenadas de clique e detecção de pixel para cada interface
+### Alterar contas
+
+Adicione ou edite entradas em `accounts`. Use `Win+c` para copiar o nome exato da janela:
+
+```json
+{
+  "accounts": {
+    "iop": "Bate-no-sigilo - Iop - 3.5.14.18 - Release",
+    "eni": "Cura-no-sigilo - Eniripsa - 3.5.14.18 - Release",
+    "nova": "Nome da Janela - Classe - Versao - Release"
+  }
+}
+```
+
+Depois adicione o hotkey em `index.ahk`:
+```ahk
+$#5:: app.account.focus('nova')
+```
+
+### Alterar coordenadas de clique
+
+`click` = onde o script clica para interagir com o elemento:
+
+```json
+"zap": {
+  "click": [1165, 554]
+}
+```
+
+Use `+KeyHistory` no AutoHotkey ou ferramentas do jogo para encontrar coordenadas.
+
+### Alterar detecção de pixel
+
+`detect.pos` = pixel que o script verifica para saber se a interface está aberta  
+`detect.color` = cor esperada nesse pixel (formato `0xRRGGBB`)
+
+```json
+"zap": {
+  "detect": { "pos": [1445, 429], "color": "0xA75F20" }
+}
+```
+
+Para capturar cor e posição, use o script `src/utils/copy_pixel_color_and_position.ahk` (execute via AutoHotkey e passe o mouse sobre o pixel desejado).
+
+### Atualizar após patch do Dofus
+
+Coordenadas e cores podem mudar após updates do jogo. Após cada patch:
+1. Teste cada hotkey manualmente
+2. Se falhar, recoloque as coordenadas com as ferramentas acima
 
 ## Requisitos
 
