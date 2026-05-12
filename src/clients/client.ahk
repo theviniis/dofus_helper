@@ -42,12 +42,12 @@ class ClientInterface {
     }
 
     clickAt(coordName) {
-        coord := this.config.sacoDeViagens[coordName]
+        coord := this.config["travelersBag"][coordName]
         Click(coord['click'][1], coord['click'][2])
     }
 
     pixelMatches(coordName) {
-        detect := this.config.sacoDeViagens[coordName]['detect']
+        detect := this.config["travelersBag"][coordName]['detect']
         pixelColor := PixelGetColor(detect['pos'][1], detect['pos'][2])
         return pixelColor == detect['color']
     }

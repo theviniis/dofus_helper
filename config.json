@@ -1,0 +1,26 @@
+{
+  "accounts": {
+    "iop": "Bate-no-sigilo - Iop - 3.5.14.18 - Release",
+    "eni": "Cura-no-sigilo - Eniripsa - 3.5.14.18 - Release",
+    "cra": "Arqueira-no-sigilo - Cra - 3.5.14.18 - Release",
+    "sac": "Berserker-no-sigilo - Sacrier - 3.5.14.18 - Release"
+  },
+  "travelersBag": {
+    "zap": {
+      "click": [1165, 554],
+      "detect": {
+        "pos": [1445, 429],
+        "color": "0xA75F20"
+      }
+    },
+    "zapInterface": {
+      "detect": {
+        "pos": [1595, 410],
+        "color": "0x173238"
+      }
+    },
+    "search": {
+      "click": [1334, 515]
+    }
+  }
+}

@@ -18,7 +18,7 @@ class ZapNavigator {
 
     isZapInterfaceOpen {
         get {
-            return this.client.pixelMatches("interfaceZap")
+            return this.client.pixelMatches("zapInterface")
         }
     }
 
