@@ -1,7 +1,5 @@
 #Requires AutoHotkey v2.0
 
-SLEEP_TIME := 250
-
 class ClientInterface {
     __New(config) {
         this.config := config

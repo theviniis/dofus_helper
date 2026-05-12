@@ -1,7 +1,5 @@
 #Requires AutoHotkey v2.0
 
-SLEEP_TIME := 200
-
 class TravelNavigator {
     __New(client) {
         this.client := client
