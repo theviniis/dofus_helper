@@ -50,7 +50,7 @@ $#1:: acc.focus('iop')
 $#2:: acc.focus('eni')
 $#3:: acc.focus('sac')
 
-$+t:: travelNav.use()
+$^t:: travelNav.use()
 $+h:: zapNav.use()
 $^h:: coordinator.runAll()
 $^Esc:: zapNav.stop()
