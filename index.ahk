@@ -4,7 +4,7 @@
 #Include ./src/clients/travel_history.ahk
 #Include ./src/clients/zap.ahk
 #Include ./src/clients/accounts.ahk
-#Include ./src/clients/client_interface.ahk
+#Include ./src/clients/client.ahk
 #Include ./src/clients/travel.ahk
 
 SetTitleMatchMode 3
