@@ -6,7 +6,7 @@ AutoHotkey v2.0 automation scripts for the game **Dofus**, providing hotkey-base
 
 - `index.ahk` — Main entry point; hotkey bindings, DI wiring, config loading
 - `config.json` — Window names and pixel coordinates for UI detection
-- `src/clients/` — Game client automation modules (ClientInterface, AccountManager, ZapNavigator, TravelNavigator, TravelHistory)
+- `src/clients/` — Game client automation modules (ClientInterface, AccountManager, ZapNavigator, TravelNavigator, TravelHistory, MacroBroadcaster)
 - `src/utils/` — General-purpose utilities (JSON parser, header, tooltips)
 - `docs/superpowers/specs/` — Feature specifications (per date)
 - `docs/superpowers/plans/` — Implementation plans (per date)
@@ -67,6 +67,14 @@ index.ahk (hotkeys + DI composition root)
             ├── getAll() → reads history.txt
             ├── add(destination) → prepends, deduplicates, limits to 10
             └── save(destinations) → writes to history.txt
+    │
+    └── MacroBroadcaster (src/clients/macro_broadcaster.ahk)
+            ├── toggle() → start/stop recording
+            ├── startRecording() → hooks keyboard/mouse, saves origin window
+            ├── stopRecording() → replays actions on all open accounts
+            ├── broadcastToAll() → replays on all accounts except origin
+            ├── _onKey/_onMouse → capture input during recording
+            └── _replayActions() → execute recorded sequence
 ```
 
 **Data flow:** Hotkey → Class method → config lookup → UI interaction
@@ -84,6 +92,7 @@ index.ahk (hotkeys + DI composition root)
 | `Ctrl+h` | Multi-account zap (ZapNavigator.useAll) |
 | `Ctrl+Esc` | Stop ZapNavigator loop |
 | `Win+c` | Copy active window name to clipboard |
+| `F9` | Record/broadcast macro to all open accounts |
 
 ## Testing Strategy
 
@@ -109,6 +118,7 @@ index.ahk (hotkeys + DI composition root)
 - **Required review:** Changes to hotkey bindings in `index.ahk`
 - **Never commit:** Binary files, script backups (`.bak`), compiled `.exe`, `history.txt`
 - **Never modify:** Return semantics of `ZapNavigator.use()`, `ZapNavigator.useAll()`, or `AccountManager.getOpenAccounts()`
+- **Never modify:** `MacroBroadcaster` recording/replay timing or hook behavior without user verification
 
 ## Extensibility Hooks
 
@@ -117,6 +127,7 @@ index.ahk (hotkeys + DI composition root)
 - New utilities — Add to `src/utils/` and `#Include` in `index.ahk`
 - Extend `ZapNavigator` for additional multi-account workflows
 - `TravelHistory` limit configurable via constructor (default: 10)
+- `MacroBroadcaster` — Add new action types or modify timing via `_replayActions()`
 
 ## Further Reading
 
