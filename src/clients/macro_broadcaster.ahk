@@ -41,6 +41,9 @@ class MacroBroadcaster {
         this.recording := false
         this._setHooks(false)
 
+        ; Captura o intervalo entre a última ação gravada e o F9 de parada
+        this._logDelay()
+
         count := this.actions.Length
         this._tip("⏹ " count " ações gravadas. Replicando nas contas...")
         this.broadcastToAll()

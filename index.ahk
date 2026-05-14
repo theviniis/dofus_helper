@@ -27,4 +27,8 @@ $#c:: app.client.copyWindowName()
 ; ── Macro Broadcaster ──────────────────────────────────────────────────────
 ; F9: inicia a gravação de teclado/mouse.
 ; F9 novamente: para e replica as ações em todas as contas abertas.
-$F9:: app.macro.toggle()
+$F9:: {
+    app.macro.toggle()
+    app.client.sleep(500)
+    app.account.focus('sac')
+}
