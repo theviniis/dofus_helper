@@ -4,14 +4,14 @@
 ; e replica a sequência em todas as contas abertas ao parar a gravação.
 
 class MacroBroadcaster {
-    recording      := false
-    actions        := []
-    lastTime       := 0
+    recording := false
+    actions := []
+    lastTime := 0
     originWindowId := 0   ; ID da janela ativa quando a gravação foi iniciada
 
     __New(accountMgr, client) {
         this.accountMgr := accountMgr
-        this.client     := client
+        this.client := client
     }
 
     ; ─── API pública ────────────────────────────────────────────────────────
@@ -27,10 +27,10 @@ class MacroBroadcaster {
     startRecording() {
         if (this.recording)
             return
-        this.actions       := []
-        this.lastTime      := A_TickCount
+        this.actions := []
+        this.lastTime := A_TickCount
         this.originWindowId := WinExist("A")   ; salva a janela de origem
-        this.recording     := true
+        this.recording := true
         this._setHooks(true)
         this._tip("🔴 Gravando macro... (F9 para parar)")
     }
@@ -56,7 +56,7 @@ class MacroBroadcaster {
         openAccounts := this.accountMgr.getOpenAccounts()
         if (openAccounts.Length = 0) {
             this._tip("Nenhuma conta aberta encontrada.")
-            Sleep(1500)
+            this.client.sleep(1500)
             return
         }
 
@@ -68,7 +68,7 @@ class MacroBroadcaster {
 
             this._tip("▶ Replicando em: " accountName)
             this.accountMgr.focus(accountName)
-            Sleep(300)
+            this.client.sleep(300)
             this._replayActions()
         }
     }
@@ -81,7 +81,7 @@ class MacroBroadcaster {
         ; Registra/remove hotkeys para todas as teclas virtuais (exceto F9 e modificadores puros)
         loop 254 {
             vk := Format("vk{:X}", A_Index)
-            k  := GetKeyName(vk)
+            k := GetKeyName(vk)
             ; Ignora a tecla de toggle e entradas vazias
             if (k = "F9" || k = "")
                 continue
@@ -100,50 +100,50 @@ class MacroBroadcaster {
         }
     }
 
-    ; Adiciona um Sleep proporcional ao intervalo desde a última ação
+    ; Adiciona um this.client.sleep proporcional ao intervalo desde a última ação
     _logDelay() {
-        t     := A_TickCount
+        t := A_TickCount
         delay := this.lastTime ? t - this.lastTime : 0
         this.lastTime := t
         if (delay > 200)
-            this.actions.Push({type: "sleep", duration: delay // 2})
+            this.actions.Push({ type: "this.client.sleep", duration: delay // 2 })
     }
 
     _onKey(hotkeyName) {
         Critical()
         vksc := SubStr(A_ThisHotkey, 3)          ; remove o prefixo "~*"
-        k    := GetKeyName(vksc)
-        k    := StrReplace(k, "Control", "Ctrl")
+        k := GetKeyName(vksc)
+        k := StrReplace(k, "Control", "Ctrl")
         modifier := SubStr(k, 2)
 
         ; Teclas modificadoras: gravar Down + Up
         if (modifier ~= "^(?i:Alt|Ctrl|Shift|Win)$") {
             this._logDelay()
-            this.actions.Push({type: "key", key: "{" k " Down}"})
+            this.actions.Push({ type: "key", key: "{" k " Down}" })
             Critical("Off")
             KeyWait(k)
             Critical()
             this._logDelay()
-            this.actions.Push({type: "key", key: "{" k " Up}"})
+            this.actions.Push({ type: "key", key: "{" k " Up}" })
             return
         }
 
         ; Teclas normais
         sendKey := StrLen(k) > 1 ? "{" k "}" : (k ~= "\w" ? k : "{" vksc "}")
         this._logDelay()
-        this.actions.Push({type: "key", key: sendKey})
+        this.actions.Push({ type: "key", key: sendKey })
     }
 
     _onMouse(hotkeyName) {
         Critical()
-        k   := GetKeyName(SubStr(A_ThisHotkey, 3))
+        k := GetKeyName(SubStr(A_ThisHotkey, 3))
         btn := SubStr(k, 1, 1)   ; "L", "R" ou "M"
 
         CoordMode("Mouse", "Screen")
         MouseGetPos(&x, &y)
 
         this._logDelay()
-        this.actions.Push({type: "mouse", button: btn, x: x, y: y, state: "D"})
+        this.actions.Push({ type: "mouse", button: btn, x: x, y: y, state: "D" })
 
         x1 := x, y1 := y
         t1 := A_TickCount
@@ -161,7 +161,7 @@ class MacroBroadcaster {
         }
 
         this._logDelay()
-        this.actions.Push({type: "mouse", button: btn, x: x + x2 - x1, y: y + y2 - y1, state: "U"})
+        this.actions.Push({ type: "mouse", button: btn, x: x + x2 - x1, y: y + y2 - y1, state: "U" })
     }
 
     ; ─── Replay ─────────────────────────────────────────────────────────────
@@ -173,12 +173,12 @@ class MacroBroadcaster {
 
         for action in this.actions {
             switch action.type {
-                case "sleep":
-                    Sleep(action.duration)
+                case "this.client.sleep":
+                    this.client.sleep(action.duration)
                 case "key":
                     Send("{Blind}" action.key)
                 case "mouse":
-                    MouseClick(action.button, action.x, action.y,,, action.state)
+                    MouseClick(action.button, action.x, action.y, , , action.state)
             }
         }
 
