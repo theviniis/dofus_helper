@@ -49,7 +49,7 @@ class ZapNavigator {
         gbTitleH := 20  ; height of GroupBox title area
 
         ; GroupBox "Destino"
-        destGbH := hasHistory ? 244 : 72
+        destGbH := hasHistory ? 252 : 80
         myGui := Gui("+AlwaysOnTop", "ZapNavigator - Destino")
         myGui.SetFont("s10")
         myGui.Add("GroupBox", "x" gbX " ym w" gbW " h" destGbH, "Destino")
