@@ -177,20 +177,12 @@ class ZapNavigator {
             return
         }
 
-        activeAccount := this.account.getAccountByWindow(priorWindow)
-        if (activeAccount != "") {
-            for i, name in openAccounts {
-                if (name = activeAccount) {
-                    openAccounts.RemoveAt(i)
-                    openAccounts.InsertAt(1, activeAccount)
-                    break
-                }
-            }
+        dest := this.getDestination(true)
+        if (dest = "" || this.selectedAccounts.Length = 0) {
+            return
         }
 
-        this.destination := ""
-
-        for accountName in openAccounts {
+        for accountName in this.selectedAccounts {
             this.account.focus(accountName)
             Sleep(SLEEP_TIME)
 
