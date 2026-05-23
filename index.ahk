@@ -24,10 +24,7 @@ $^t:: {
 ; USE ZAP
 $+h:: app.zap.use()
 
-$^h:: {
-    app.account.focus(MAIN_CHARACTER)
-    app.zap.useAll()
-}
+$^h:: app.zap.useAll()
 
 $^Esc:: app.zap.stop()
 
