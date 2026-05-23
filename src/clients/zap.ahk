@@ -70,7 +70,7 @@ class ZapNavigator {
                         }
                     }
                 }
-                opts := "x" rightColX " w150 v__cb_" accountName
+                opts := "xp yp+20 w150 v__cb_" accountName
                 if (!isOpen)
                     opts .= " Disabled"
                 if (isChecked)
