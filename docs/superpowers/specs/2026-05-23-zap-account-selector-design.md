@@ -57,19 +57,21 @@ Inicializada vazia no construtor. Array de strings com os nomes das contas selec
 ### `getDestination(showAccounts := false)`
 
 - Parâmetro `showAccounts` adicionado — padrão `false` preserva comportamento atual para `use()` (Shift+H).
-- Quando `showAccounts = true`:
+- Quando `showAccounts = false`: comportamento idêntico ao atual (retorna `this.destination` cacheado se já definido).
+- Quando `showAccounts = true`: **sempre exibe o GUI** (ignora `this.destination` cacheado), pois a seleção de contas precisa ser confirmada a cada chamada.
   - Renderiza a coluna direita com um `Checkbox` por conta de `config.json`.
-  - Conta aberta + na última seleção → pré-marcada.
-  - Conta aberta + fora da última seleção (ou primeira vez com conta aberta) → pré-marcada.
-  - Conta fechada → `Disabled`, desmarcada.
+  - Lógica de pré-marcação:
+    - Se `this.selectedAccounts` estiver vazio (primeira vez): pré-marca todas as contas abertas.
+    - Se `this.selectedAccounts` não estiver vazio: pré-marca as contas que estão em `this.selectedAccounts` **e** têm janela aberta.
+  - Conta fechada → `Disabled`, desmarcada independentemente da seleção anterior.
   - No OK: salva `this.selectedAccounts` com os nomes das contas marcadas.
-  - Se array resultante vazio → aborta (retorna `false`).
+  - Se array resultante vazio → aborta (retorna `""`).
 
 ### `useAll()`
 
-- Chama `getDestination(true)` para obter destino e seleção de contas.
+- Chama `getDestination(true)` para obter destino e seleção de contas em um único GUI.
 - Itera sobre `this.selectedAccounts` em vez de `openAccounts`.
-- Remove a linha `this.destination := ""` do início (o GUI já lida com o destino).
+- Remove `this.destination := ""` do início — `getDestination(true)` sempre exibe o GUI e atualiza o destino.
 
 ---
 
