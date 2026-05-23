@@ -187,6 +187,7 @@ class ZapNavigator {
             Sleep(SLEEP_TIME)
 
             if (!this.use(false)) {
+                this.destination := ""
                 return
             }
         }
