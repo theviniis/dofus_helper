@@ -49,7 +49,7 @@ class ZapNavigator {
         myGui.Add("Text", "Section w300", "Selecione ou digite o destino:")
 
         if (hasHistory) {
-            myGui.Add("ListBox", "vSelectedDestination w300 h150", allDests)
+            myGui.Add("ListBox", "vSelectedDestination w300 h167", allDests)
         }
 
         editCtrl := myGui.Add("Edit", "vNewDestination w300")
