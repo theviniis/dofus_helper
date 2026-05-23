@@ -17,7 +17,7 @@ $#4:: app.account.focus(MAIN_CHARACTER)
 
 ; TRAVEL
 $^t:: {
-    app.client.focus(MAIN_CHARACTER)
+    app.account.focus(MAIN_CHARACTER)
     app.travel.use()
 }
 
