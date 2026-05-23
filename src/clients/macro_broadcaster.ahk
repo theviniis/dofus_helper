@@ -189,11 +189,13 @@ class MacroBroadcaster {
     ; ─── Utilitário ─────────────────────────────────────────────────────────
 
     _tip(msg) {
-        tipX := A_ScreenWidth - 300
-        ToolTip(msg, tipX, 20)
+        BOTTOM_OFFSET := 130
+        tipX := A_ScreenWidth // 2 - 150
+        tipY := A_ScreenHeight - BOTTOM_OFFSET
+        ToolTip(msg, tipX, tipY)
         if (msg = "")
             return
         ; Auto-remove após 2 s caso não seja sobrescrito antes
-        SetTimer(() => ToolTip("", tipX, 20), -2000)
+        SetTimer(() => ToolTip("", tipX, tipY), -2000)
     }
 }
