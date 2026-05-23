@@ -179,10 +179,14 @@ class ZapNavigator {
 
         dest := this.getDestination(true)
         if (dest = "" || this.selectedAccounts.Length = 0) {
+            this.destination := ""
             return
         }
 
         for accountName in this.selectedAccounts {
+            windowName := this.account.account.Get(accountName)
+            if (!this.client.windowExists(windowName))
+                continue
             this.account.focus(accountName)
             Sleep(SLEEP_TIME)
 
