@@ -4,31 +4,39 @@
 #Include ./src/utils/JSON.ahk
 #Include ./src/utils/init.ahk
 
+MAIN_CHARACTER := 'enu'
+
 config := Jxon_Load_File("config.json")
 app := Init(config)
 
+; ACCOUNT FOCUS
 $#1:: app.account.focus('eni')
 $#2:: app.account.focus('panda')
 $#3:: app.account.focus('iop')
-$#4:: app.account.focus('enu')
+$#4:: app.account.focus(MAIN_CHARACTER)
 
-$^t:: app.travel.use()
+; TRAVEL
+$^t:: {
+    app.client.focus(MAIN_CHARACTER)
+    app.travel.use()
+}
+
+; USE ZAP
 $+h:: app.zap.use()
 
 $^h:: {
-    app.account.focus('enu')
+    app.account.focus(MAIN_CHARACTER)
     app.zap.useAll()
 }
 
 $^Esc:: app.zap.stop()
 
+; COPY WINDOW NAME
 $#c:: app.client.copyWindowName()
 
-; ── Macro Broadcaster ──────────────────────────────────────────────────────
-; F9: inicia a gravação de teclado/mouse.
-; F9 novamente: para e replica as ações em todas as contas abertas.
+; MACRO RECORDER
 $F9:: {
     app.macro.toggle()
     app.client.sleep(500)
-    app.account.focus('enu')
+    app.account.focus(MAIN_CHARACTER)
 }
