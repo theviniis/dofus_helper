@@ -55,7 +55,8 @@ class ZapNavigator {
         myGui.Add("Edit", "vNewDestination w300")
 
         if (showAccounts) {
-            myGui.Add("Text", "x330 ys w150", "Contas:")
+            rightColX := 330
+            myGui.Add("Text", "x" rightColX " ys w150", "Contas:")
             for accountName, windowName in this.account.account {
                 isOpen := this.client.windowExists(windowName)
                 if (this.selectedAccounts.Length = 0) {
@@ -69,7 +70,7 @@ class ZapNavigator {
                         }
                     }
                 }
-                opts := "x330 w150 v__cb_" accountName
+                opts := "x" rightColX " w150 v__cb_" accountName
                 if (!isOpen)
                     opts .= " Disabled"
                 if (isChecked)
@@ -89,11 +90,9 @@ class ZapNavigator {
             }
             if (showAccounts) {
                 selected := []
-                for accountName, windowName in this.account.account {
-                    try {
-                        if (myGui["__cb_" accountName].Value)
-                            selected.Push(accountName)
-                    }
+                for accountName, _ in this.account.account {
+                    if (myGui["__cb_" accountName].Value)
+                        selected.Push(accountName)
                 }
                 this.selectedAccounts := selected
             }
