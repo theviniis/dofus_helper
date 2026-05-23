@@ -44,18 +44,30 @@ class ZapNavigator {
         hasHistory := allDests.Length > 0
         state := { result: "", done: false }
 
+        ; Layout constants (s10 font, 96 DPI)
+        gbX := 10, gbW := 320, innerX := 20, innerW := 300
+        gbTitleH := 20  ; height of GroupBox title area
+
+        ; GroupBox "Destino"
+        destGbH := hasHistory ? 244 : 72
         myGui := Gui("+AlwaysOnTop", "ZapNavigator - Destino")
         myGui.SetFont("s10")
-        myGui.Add("Text", "w300", "Selecione ou digite o destino:")
-
+        myGui.Add("GroupBox", "x" gbX " ym w" gbW " h" destGbH, "Destino")
+        myGui.Add("Text", "x" innerX " y30 w" innerW, "Selecione ou digite o destino:")
         if (hasHistory) {
-            myGui.Add("ListBox", "vSelectedDestination w300 h167", allDests)
+            myGui.Add("ListBox", "x" innerX " y50 vSelectedDestination w" innerW " h167", allDests)
+            myGui.Add("Edit",    "x" innerX " y225 vNewDestination w" innerW)
+        } else {
+            myGui.Add("Edit",    "x" innerX " y50 vNewDestination w" innerW)
         }
 
-        myGui.Add("Edit", "vNewDestination w300")
-
+        ; GroupBox "Contas"
+        btnY := 10 + destGbH + 8
         if (showAccounts) {
-            myGui.Add("Text", "xm w300", "Contas:")
+            contasGbY := btnY
+            contasGbH := 48
+            myGui.Add("GroupBox", "x" gbX " y" contasGbY " w" gbW " h" contasGbH, "Contas")
+            checkY := contasGbY + gbTitleH + 4
             firstCheckbox := true
             for accountName, windowName in this.account.account {
                 isOpen := this.client.windowExists(windowName)
@@ -70,8 +82,7 @@ class ZapNavigator {
                         }
                     }
                 }
-                opts := firstCheckbox ? "xm" : "x+10"
-                opts .= " v__cb_" accountName
+                opts := (firstCheckbox ? "x" innerX : "x+15") " y" checkY " v__cb_" accountName
                 if (!isOpen)
                     opts .= " Disabled"
                 if (isChecked)
@@ -79,6 +90,7 @@ class ZapNavigator {
                 myGui.Add("CheckBox", opts, accountName)
                 firstCheckbox := false
             }
+            btnY := contasGbY + contasGbH + 8
         }
 
         OnOK(*) {
@@ -112,8 +124,8 @@ class ZapNavigator {
             GuiObj.Destroy()
         }
 
-        myGui.Add("Button", "xm w80", "Cancel").OnEvent("Click", OnCancel)
-        myGui.Add("Button", "x+10 w80 Default", "OK").OnEvent("Click", OnOK)
+        myGui.Add("Button", "x" gbX " y" btnY " w80", "Cancel").OnEvent("Click", OnCancel)
+        myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK").OnEvent("Click", OnOK)
         myGui.OnEvent("Close", OnClose)
         myGui.Show()
         myGui["NewDestination"].Focus()
