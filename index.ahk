@@ -7,16 +7,16 @@
 config := Jxon_Load_File("config.json")
 app := Init(config)
 
-$#1:: app.account.focus('iop')
-$#2:: app.account.focus('eni')
-$#3:: app.account.focus('cra')
-$#4:: app.account.focus('sac')
+$#1:: app.account.focus('eni')
+$#2:: app.account.focus('panda')
+$#3:: app.account.focus('iop')
+$#4:: app.account.focus('enu')
 
 $^t:: app.travel.use()
 $+h:: app.zap.use()
 
 $^h:: {
-    app.account.focus('sac')
+    app.account.focus('enu')
     app.zap.useAll()
 }
 
@@ -30,5 +30,5 @@ $#c:: app.client.copyWindowName()
 $F9:: {
     app.macro.toggle()
     app.client.sleep(500)
-    app.account.focus('sac')
+    app.account.focus('enu')
 }
