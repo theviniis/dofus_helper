@@ -52,8 +52,9 @@ class ZapNavigator {
             myGui.Add("ListBox", "vSelectedDestination w300 h150", allDests)
         }
 
-        myGui.Add("Edit", "vNewDestination w300")
+        editCtrl := myGui.Add("Edit", "vNewDestination w300")
 
+        lastRightCtrl := ""
         if (showAccounts) {
             rightColX := 330
             myGui.Add("Text", "x" rightColX " ys w150", "Contas:")
@@ -75,7 +76,7 @@ class ZapNavigator {
                     opts .= " Disabled"
                 if (isChecked)
                     opts .= " Checked"
-                myGui.Add("CheckBox", opts, accountName)
+                lastRightCtrl := myGui.Add("CheckBox", opts, accountName)
             }
         }
 
@@ -110,8 +111,15 @@ class ZapNavigator {
             GuiObj.Destroy()
         }
 
-        myGui.Add("Button", "w80", "Cancel").OnEvent("Click", OnCancel)
-        myGui.Add("Button", "x+10 w80 Default", "OK").OnEvent("Click", OnOK)
+        editCtrl.GetPos(, &ey, , &eh)
+        btnY := ey + eh + 10
+        if (lastRightCtrl != "") {
+            lastRightCtrl.GetPos(, &ry, , &rh)
+            btnY := Max(btnY, ry + rh + 10)
+        }
+
+        myGui.Add("Button", "xm y" btnY " w80", "Cancel").OnEvent("Click", OnCancel)
+        myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK").OnEvent("Click", OnOK)
         myGui.OnEvent("Close", OnClose)
         myGui.Show()
         myGui["NewDestination"].Focus()
