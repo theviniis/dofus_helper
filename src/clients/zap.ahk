@@ -7,6 +7,7 @@ class ZapNavigator {
         this.travelHistory := travelHistory
         this.running := false
         this.destination := ""
+        this.selectedAccounts := []
         this.account := account
     }
 
