@@ -46,18 +46,17 @@ class ZapNavigator {
 
         myGui := Gui("+AlwaysOnTop", "ZapNavigator - Destino")
         myGui.SetFont("s10")
-        myGui.Add("Text", "Section w300", "Selecione ou digite o destino:")
+        myGui.Add("Text", "w300", "Selecione ou digite o destino:")
 
         if (hasHistory) {
             myGui.Add("ListBox", "vSelectedDestination w300 h167", allDests)
         }
 
-        editCtrl := myGui.Add("Edit", "vNewDestination w300")
+        myGui.Add("Edit", "vNewDestination w300")
 
-        lastRightCtrl := ""
         if (showAccounts) {
-            rightColX := 330
-            myGui.Add("Text", "x" rightColX " ys w150", "Contas:")
+            myGui.Add("Text", "xm w300", "Contas:")
+            firstCheckbox := true
             for accountName, windowName in this.account.account {
                 isOpen := this.client.windowExists(windowName)
                 if (this.selectedAccounts.Length = 0) {
@@ -71,12 +70,14 @@ class ZapNavigator {
                         }
                     }
                 }
-                opts := "xp yp+20 w150 v__cb_" accountName
+                opts := firstCheckbox ? "xm" : "x+10"
+                opts .= " v__cb_" accountName
                 if (!isOpen)
                     opts .= " Disabled"
                 if (isChecked)
                     opts .= " Checked"
-                lastRightCtrl := myGui.Add("CheckBox", opts, accountName)
+                myGui.Add("CheckBox", opts, accountName)
+                firstCheckbox := false
             }
         }
 
@@ -111,15 +112,8 @@ class ZapNavigator {
             GuiObj.Destroy()
         }
 
-        editCtrl.GetPos(, &ey, , &eh)
-        btnY := ey + eh + 10
-        if (lastRightCtrl != "") {
-            lastRightCtrl.GetPos(, &ry, , &rh)
-            btnY := Max(btnY, ry + rh + 10)
-        }
-
-        myGui.Add("Button", "xm y" btnY " w80", "Cancel").OnEvent("Click", OnCancel)
-        myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK").OnEvent("Click", OnOK)
+        myGui.Add("Button", "xm w80", "Cancel").OnEvent("Click", OnCancel)
+        myGui.Add("Button", "x+10 w80 Default", "OK").OnEvent("Click", OnOK)
         myGui.OnEvent("Close", OnClose)
         myGui.Show()
         myGui["NewDestination"].Focus()
