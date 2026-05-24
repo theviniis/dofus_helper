@@ -23,15 +23,14 @@ Automate everything except the "add items" step. A single hotkey triggers the fu
 
 ## Flow (per receiver account)
 
-1. **Source window** — click on receiver character position (calculated from base position + per-account offset)
-2. **Context menu** — click "Propor uma troca" at `characterClick + proposeMenuOffset` (offset is a configurable [dX, dY])
-3. **Receiver window** — pixel detection confirms trade proposal → click "Aceitar"
-4. **Source window** — floating GUI appears: "Adicione os itens na troca e clique em Confirmar"
-5. **User adds items manually**
-6. **User clicks "Confirmar"** — GUI closes
-7. **Source window** — click confirm trade button (pixel detection)
-8. **Receiver window** — click confirm trade button (pixel detection)
-9. Repeat from step 1 for the next receiver
+1. **Receiver window** — click on source character (fixed position — same in all windows) → click "Propor troca" at `sourceCharacterClick + proposeMenuOffset`
+2. **Source window** — pixel detection confirms trade proposal → click "Aceitar"
+3. **Source window** — floating GUI appears: "Adicione os itens na troca e clique em Confirmar"
+4. **User adds items manually**
+5. **User clicks "Confirmar"** — GUI closes
+6. **Source window** — click confirm trade button (pixel detection)
+7. **Receiver window** — click confirm trade button (pixel detection)
+8. Repeat from step 1 for the next receiver
 
 If the user clicks "Cancelar" in the GUI, the entire loop aborts and focus returns to the original window.
 
@@ -58,8 +57,8 @@ Class `TradeManager` with constructor dependencies:
 
 | Method | Description |
 |--------|-------------|
-| `_proposeTradeToReceiver(receiverName)` | Focus source → click receiver character position (base + offset) → click "Propor uma troca" at `characterClick + proposeMenuOffset` |
-| `_acceptTradeOnReceiver(receiverName)` | Focus receiver → wait for trade proposal pixel → click "Aceitar" |
+| `_proposeTrade(receiverName)` | Focus receiver → click source character (fixed position) → click "Propor troca" at `sourceCharacterClick + proposeMenuOffset` |
+| `_acceptTrade()` | Focus source → wait for trade proposal pixel → click "Aceitar" |
 | `_waitUserAddItems()` | Show always-on-top GUI → return `true` (Confirmar) or `false` (Cancelar) |
 | `_confirmTrade(sourceName, receiverName)` | Focus source → click confirm → focus receiver → click confirm |
 | `_tip(msg)` | Centered bottom tooltip, same pattern as `MacroBroadcaster._tip()` |
@@ -72,35 +71,18 @@ New top-level key `"trade"`:
 
 ```json
 "trade": {
-  "characterBase": { "click": [X, Y] },
-  "characterSpacing": [dX, dY],
+  "sourceCharacter": { "click": [X, Y] },
   "proposeMenuOffset": [dX, dY],
   "acceptButton":  { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } },
   "confirmButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } }
 }
 ```
 
-### Character position calculation
+`sourceCharacter.click` — posição do personagem fonte na tela. É a mesma em todas as janelas receptoras (todos estão no mesmo mapa).
 
-Characters are evenly spaced in the game UI. The index `i` of the receiver is derived from iterating over `config["accounts"]` (insertion order of the Map, same as defined in `config.json`) — no separate ordering array is needed:
+`proposeMenuOffset` — offset `[dX, dY]` somado ao clique do personagem para chegar em "Propor troca" no menu de contexto. Ajustado manualmente após o primeiro teste.
 
-```
-clickX = characterBase.click[0] + i * characterSpacing[0]
-clickY = characterBase.click[1] + i * characterSpacing[1]
-```
-
-### "Propor troca" menu click
-
-The context menu appears relative to where the character was clicked. "Propor troca" is always at a fixed offset from that click:
-
-```
-proposeX = clickX + proposeMenuOffset[0]
-proposeY = clickY + proposeMenuOffset[1]
-```
-
-Both `characterSpacing` and `proposeMenuOffset` are adjusted manually after first run.
-
-Coordinates are populated manually using the existing `copy_pixel_color_and_position.ahk` utility.
+Coordenadas coletadas com o utilitário `copy_pixel_color_and_position.ahk`.
 
 ---
 
