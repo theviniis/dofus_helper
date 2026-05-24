@@ -22,5 +22,17 @@
     "search": {
       "click": [1334, 515]
     }
+  },
+  "trade": {
+    "sourceCharacter": { "click": [0, 0] },
+    "proposeMenuOffset": [0, 0],
+    "acceptButton": {
+      "click": [0, 0],
+      "detect": { "pos": [0, 0], "color": "0x000000" }
+    },
+    "confirmButton": {
+      "click": [0, 0],
+      "detect": { "pos": [0, 0], "color": "0x000000" }
+    }
   }
 }
