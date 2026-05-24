@@ -24,7 +24,8 @@
     }
   },
   "trade": {
-    "sourceCharacter": { "click": [0, 0] },
+    "groupBase": { "click": [0, 0] },
+    "groupSpacing": [0, 0],
     "proposeMenuOffset": [0, 0],
     "acceptButton": {
       "click": [0, 0],

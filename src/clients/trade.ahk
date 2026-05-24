@@ -29,7 +29,7 @@ class TradeManager {
         }
 
         for receiverName in receivers {
-            this._proposeTrade(receiverName)
+            this._proposeTrade(sourceName, receiverName)
 
             if (!this._acceptTrade(sourceName)) {
                 this.account.focus(sourceName)
@@ -51,18 +51,26 @@ class TradeManager {
         this._tip("Trocas concluídas")
     }
 
-    _proposeTrade(receiverName) {
+    _proposeTrade(sourceName, receiverName) {
+        sourceIndex := 0
+        for accountName, _ in this.account.account {
+            if (accountName = sourceName)
+                break
+            sourceIndex++
+        }
+
+        groupBase := this.tradeConfig["groupBase"]["click"]
+        spacing   := this.tradeConfig["groupSpacing"]
+        srcX := groupBase[1] + sourceIndex * spacing[1]
+        srcY := groupBase[2] + sourceIndex * spacing[2]
+
+        offset := this.tradeConfig["proposeMenuOffset"]
+
         this.account.focus(receiverName)
         this.client.sleep()
-
-        srcClick := this.tradeConfig["sourceCharacter"]["click"]
-        Click(srcClick[1], srcClick[2])
+        Click(srcX, srcY)
         this.client.sleep()
-
-        offset   := this.tradeConfig["proposeMenuOffset"]
-        proposeX := srcClick[1] + offset[1]
-        proposeY := srcClick[2] + offset[2]
-        Click(proposeX, proposeY)
+        Click(srcX + offset[1], srcY + offset[2])
         this.client.sleep()
     }
 
