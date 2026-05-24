@@ -18,7 +18,40 @@ class TradeManager {
     }
 
     _waitUserAddItems() {
-        return false
+        state := { result: false, done: false }
+
+        myGui := Gui("+AlwaysOnTop", "Troca")
+        myGui.SetFont("s10")
+        myGui.Add("Text", "x10 y10 w280", "Adicione os itens na troca e clique em Confirmar.")
+
+        OnConfirm(*) {
+            state.result := true
+            state.done   := true
+            myGui.Destroy()
+        }
+
+        OnCancel(*) {
+            state.result := false
+            state.done   := true
+            myGui.Destroy()
+        }
+
+        OnClose(GuiObj) {
+            state.result := false
+            state.done   := true
+            GuiObj.Destroy()
+        }
+
+        myGui.Add("Button", "x10 y40 w80", "Cancelar").OnEvent("Click", OnCancel)
+        myGui.Add("Button", "x+10 y40 w80 Default", "Confirmar").OnEvent("Click", OnConfirm)
+        myGui.OnEvent("Close", OnClose)
+        myGui.Show("w300")
+
+        while !state.done {
+            Sleep(50)
+        }
+
+        return state.result
     }
 
     _confirmTrade(sourceName, receiverName) {
