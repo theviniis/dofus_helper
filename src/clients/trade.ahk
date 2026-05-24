@@ -8,6 +8,44 @@ class TradeManager {
     }
 
     run() {
+        sourceId   := WinExist("A")
+        sourceName := this.account.getAccountByWindow(sourceId)
+
+        if (sourceName = "") {
+            this._tip("Erro: janela ativa não é uma conta conhecida")
+            return
+        }
+
+        openAccounts := this.account.getOpenAccounts()
+        receivers := []
+        for accountName in openAccounts {
+            if (accountName != sourceName)
+                receivers.Push(accountName)
+        }
+
+        if (receivers.Length = 0) {
+            this._tip("Nenhuma conta receptora aberta")
+            return
+        }
+
+        for receiverName in receivers {
+            this._proposeTrade(receiverName)
+
+            if (!this._acceptTrade(sourceName)) {
+                this.account.focus(sourceName)
+                return
+            }
+
+            if (!this._waitUserAddItems()) {
+                this.account.focus(sourceName)
+                return
+            }
+
+            this._confirmTrade(sourceName, receiverName)
+        }
+
+        this.account.focus(sourceName)
+        this._tip("Trocas concluídas")
     }
 
     _proposeTrade(receiverName) {
