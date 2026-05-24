@@ -46,8 +46,22 @@ class ClientInterface {
 
     pixelMatches(coordName) {
         detect := this.config["travelersBag"][coordName]['detect']
+        return this.pixelMatchesDetect(detect)
+    }
+
+    pixelMatchesDetect(detect) {
         pixelColor := PixelGetColor(detect['pos'][1], detect['pos'][2])
         return pixelColor == detect['color']
+    }
+
+    waitForPixelDetect(detect, timeoutMs := 5000) {
+        deadline := A_TickCount + timeoutMs
+        while A_TickCount < deadline {
+            if this.pixelMatchesDetect(detect)
+                return true
+            Sleep(100)
+        }
+        return false
     }
 
     clearInput() {

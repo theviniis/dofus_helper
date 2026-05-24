@@ -37,3 +37,6 @@ $F9:: {
     app.client.sleep(500)
     app.account.focus(MAIN_CHARACTER)
 }
+
+; TRADE
+$^+t:: app.trade.run()
