@@ -78,6 +78,26 @@ class TradeManager {
     }
 
     _confirmTrade(sourceName, receiverName) {
+        confirmClick  := this.tradeConfig["confirmButton"]["click"]
+        confirmDetect := this.tradeConfig["confirmButton"]["detect"]
+
+        this.account.focus(sourceName)
+        this.client.sleep()
+        if (!this.client.waitForPixelDetect(confirmDetect, 5000)) {
+            this._tip("Erro: botão confirmar não detectado (fonte)")
+            return
+        }
+        Click(confirmClick[1], confirmClick[2])
+        this.client.sleep()
+
+        this.account.focus(receiverName)
+        this.client.sleep()
+        if (!this.client.waitForPixelDetect(confirmDetect, 5000)) {
+            this._tip("Erro: botão confirmar não detectado (receptor)")
+            return
+        }
+        Click(confirmClick[1], confirmClick[2])
+        this.client.sleep()
     }
 
     _tip(msg) {
