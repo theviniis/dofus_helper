@@ -4,7 +4,7 @@
 #Include ./src/utils/JSON.ahk
 #Include ./src/utils/init.ahk
 
-MAIN_CHARACTER := 'enu'
+MAIN_CHARACTER := 'panda'
 
 config := Jxon_Load_File("config.json")
 app := Init(config)
@@ -37,3 +37,6 @@ $F9:: {
     app.client.sleep(500)
     app.account.focus(MAIN_CHARACTER)
 }
+
+; TRADE
+$^+t:: app.trade.run()
