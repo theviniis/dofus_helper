@@ -23,7 +23,7 @@ Automate everything except the "add items" step. A single hotkey triggers the fu
 
 ## Flow (per receiver account)
 
-1. **Receiver window** — click on source character (fixed position — same in all windows) → click "Propor troca" at `sourceCharacterClick + proposeMenuOffset`
+1. **Receiver window** — click on source character's portrait in the group panel (`groupBase + sourceIndex * groupSpacing`) → click "Propor troca" at `sourceClick + proposeMenuOffset`
 2. **Source window** — pixel detection confirms trade proposal → click "Aceitar"
 3. **Source window** — floating GUI appears: "Adicione os itens na troca e clique em Confirmar"
 4. **User adds items manually**
@@ -57,7 +57,7 @@ Class `TradeManager` with constructor dependencies:
 
 | Method | Description |
 |--------|-------------|
-| `_proposeTrade(receiverName)` | Focus receiver → click source character (fixed position) → click "Propor troca" at `sourceCharacterClick + proposeMenuOffset` |
+| `_proposeTrade(sourceName, receiverName)` | Focus receiver → calculate source portrait position from group panel (`groupBase + sourceIndex * groupSpacing`) → click "Propor troca" at `sourceClick + proposeMenuOffset` |
 | `_acceptTrade()` | Focus source → wait for trade proposal pixel → click "Aceitar" |
 | `_waitUserAddItems()` | Show always-on-top GUI → return `true` (Confirmar) or `false` (Cancelar) |
 | `_confirmTrade(sourceName, receiverName)` | Focus source → click confirm → focus receiver → click confirm |
@@ -71,16 +71,19 @@ New top-level key `"trade"`:
 
 ```json
 "trade": {
-  "sourceCharacter": { "click": [X, Y] },
+  "groupBase": { "click": [X, Y] },
+  "groupSpacing": [dX, dY],
   "proposeMenuOffset": [dX, dY],
   "acceptButton":  { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } },
   "confirmButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } }
 }
 ```
 
-`sourceCharacter.click` — posição do personagem fonte na tela. É a mesma em todas as janelas receptoras (todos estão no mesmo mapa).
+`groupBase.click` — posição do primeiro membro no menu de grupo (UI fixa do jogo).
 
-`proposeMenuOffset` — offset `[dX, dY]` somado ao clique do personagem para chegar em "Propor troca" no menu de contexto. Ajustado manualmente após o primeiro teste.
+`groupSpacing` — offset `[dX, dY]` entre retratos consecutivos no menu de grupo. A posição do personagem fonte é calculada como `groupBase + sourceIndex * groupSpacing`, onde `sourceIndex` é o índice 0-based do fonte em `config["accounts"]`.
+
+`proposeMenuOffset` — offset `[dX, dY]` somado ao clique no retrato para chegar em "Propor troca" no menu de contexto. Ajustado manualmente após o primeiro teste.
 
 Coordenadas coletadas com o utilitário `copy_pixel_color_and_position.ahk`.
 

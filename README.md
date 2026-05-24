@@ -119,7 +119,8 @@ Todas as configurações ficam em `config.json`:
     }
   },
   "trade": {
-    "sourceCharacter": { "click": [X, Y] },
+    "groupBase": { "click": [X, Y] },
+    "groupSpacing": [dX, dY],
     "proposeMenuOffset": [dX, dY],
     "acceptButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0xRRGGBB" } },
     "confirmButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0xRRGGBB" } }
@@ -194,7 +195,7 @@ Distribui itens de um personagem para todos os outros sem intervenção manual e
 1. Ative a janela do personagem **que tem os itens** (a fonte)
 2. Pressione `Ctrl+Shift+T`
 3. Para cada conta receptora aberta, a automação:
-   - Foca a janela do receptor e clica no personagem fonte para propor a troca
+   - Foca a janela do receptor e clica no retrato do personagem fonte no **menu de grupo** para propor a troca
    - Volta para a janela fonte e aceita a proposta
    - Exibe uma janela flutuante **"Adicione os itens na troca e clique em Confirmar"**
    - Você adiciona os itens manualmente
@@ -209,20 +210,22 @@ Antes de usar, preencha a seção `"trade"` em `config.json` com as coordenadas 
 
 | Campo | O que capturar |
 |-------|----------------|
-| `sourceCharacter.click` | Posição do personagem fonte na tela (em qualquer janela receptora) |
-| `proposeMenuOffset` | Offset `[dX, dY]` do clique no personagem até a opção "Propor troca" no menu de contexto |
+| `groupBase.click` | Posição do **primeiro membro** no menu de grupo (UI fixa do jogo) |
+| `groupSpacing` | Offset `[dX, dY]` entre retratos consecutivos no menu de grupo |
+| `proposeMenuOffset` | Offset `[dX, dY]` do clique no retrato até a opção "Propor troca" no menu de contexto |
 | `acceptButton.click` | Posição do botão "Aceitar" na janela fonte quando uma proposta chega |
 | `acceptButton.detect` | Pixel de cor do botão "Aceitar" para detecção de presença |
 | `confirmButton.click` | Posição do botão "Confirmar" na janela de troca |
 | `confirmButton.detect` | Pixel de cor do botão "Confirmar" para detecção de presença |
 
-> **Dica:** `proposeMenuOffset` é relativo ao clique no personagem. Se o personagem está em `[800, 400]` e "Propor troca" aparece em `[820, 430]`, o offset é `[20, 30]`.
+> **Como a posição é calculada:** a automação determina o índice do personagem fonte na lista `accounts` do `config.json` (0-based) e calcula `groupBase + sourceIndex * groupSpacing`. Ou seja, o primeiro da lista usa `groupBase` diretamente, o segundo usa `groupBase + groupSpacing`, etc.
 
 ### Exemplo de config calibrado
 
 ```json
 "trade": {
-  "sourceCharacter": { "click": [800, 400] },
+  "groupBase": { "click": [850, 210] },
+  "groupSpacing": [0, 38],
   "proposeMenuOffset": [20, 45],
   "acceptButton": {
     "click": [960, 540],
@@ -234,6 +237,8 @@ Antes de usar, preencha a seção `"trade"` em `config.json` com as coordenadas 
   }
 }
 ```
+
+Neste exemplo o menu de grupo é vertical (spacing só em Y). Se o primeiro membro está em `[850, 210]` e o segundo em `[850, 248]`, o spacing é `[0, 38]`.
 
 ---
 
