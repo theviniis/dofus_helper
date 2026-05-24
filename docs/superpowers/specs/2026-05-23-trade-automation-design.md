@@ -74,7 +74,6 @@ New top-level key `"trade"`:
 "trade": {
   "characterBase": { "click": [X, Y] },
   "characterSpacing": [dX, dY],
-  "characterOrder": ["iop", "panda", "eni", "enu"],
   "proposeMenuOffset": [dX, dY],
   "acceptButton":  { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } },
   "confirmButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } }
@@ -83,7 +82,7 @@ New top-level key `"trade"`:
 
 ### Character position calculation
 
-Characters are evenly spaced in the game UI. Given index `i` of the receiver in `characterOrder`:
+Characters are evenly spaced in the game UI. The index `i` of the receiver is derived from iterating over `config["accounts"]` (insertion order of the Map, same as defined in `config.json`) — no separate ordering array is needed:
 
 ```
 clickX = characterBase.click[0] + i * characterSpacing[0]
