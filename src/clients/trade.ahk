@@ -41,7 +41,10 @@ class TradeManager {
                 return
             }
 
-            this._confirmTrade(sourceName, receiverName)
+            if (!this._confirmTrade(sourceName, receiverName)) {
+                this.account.focus(sourceName)
+                return
+            }
         }
 
         this.account.focus(sourceName)
@@ -123,7 +126,7 @@ class TradeManager {
         this.client.sleep()
         if (!this.client.waitForPixelDetect(confirmDetect, 5000)) {
             this._tip("Erro: botão confirmar não detectado (fonte)")
-            return
+            return false
         }
         Click(confirmClick[1], confirmClick[2])
         this.client.sleep()
@@ -132,10 +135,11 @@ class TradeManager {
         this.client.sleep()
         if (!this.client.waitForPixelDetect(confirmDetect, 5000)) {
             this._tip("Erro: botão confirmar não detectado (receptor)")
-            return
+            return false
         }
         Click(confirmClick[1], confirmClick[2])
         this.client.sleep()
+        return true
     }
 
     _tip(msg) {
