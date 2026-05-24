@@ -26,7 +26,18 @@ class TradeManager {
     }
 
     _acceptTrade(sourceName) {
-        return false
+        this.account.focus(sourceName)
+        this.client.sleep()
+
+        if (!this.client.waitForPixelDetect(this.tradeConfig["acceptButton"]["detect"], 5000)) {
+            this._tip("Erro: proposta de troca não detectada (timeout 5s)")
+            return false
+        }
+
+        acceptClick := this.tradeConfig["acceptButton"]["click"]
+        Click(acceptClick[1], acceptClick[2])
+        this.client.sleep()
+        return true
     }
 
     _waitUserAddItems() {
