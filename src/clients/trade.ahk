@@ -25,5 +25,12 @@ class TradeManager {
     }
 
     _tip(msg) {
+        BOTTOM_OFFSET := 130
+        tipX := A_ScreenWidth // 2 - 150
+        tipY := A_ScreenHeight - BOTTOM_OFFSET
+        ToolTip(msg, tipX, tipY)
+        if (msg = "")
+            return
+        SetTimer(() => ToolTip("", tipX, tipY), -2000)
     }
 }
