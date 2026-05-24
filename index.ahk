@@ -4,7 +4,7 @@
 #Include ./src/utils/JSON.ahk
 #Include ./src/utils/init.ahk
 
-MAIN_CHARACTER := 'panda'
+MAIN_CHARACTER := 'enu'
 
 config := Jxon_Load_File("config.json")
 app := Init(config)
