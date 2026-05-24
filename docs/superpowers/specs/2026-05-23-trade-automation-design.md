@@ -23,8 +23,8 @@ Automate everything except the "add items" step. A single hotkey triggers the fu
 
 ## Flow (per receiver account)
 
-1. **Source window** — click on receiver character position (fixed coords in `config.json` per account)
-2. **Detect context menu** — pixel detection confirms menu opened → click "Propor uma troca"
+1. **Source window** — click on receiver character position (calculated from base position + per-account offset)
+2. **Context menu** — click "Propor uma troca" at `characterClick + proposeMenuOffset` (offset is a configurable [dX, dY])
 3. **Receiver window** — pixel detection confirms trade proposal → click "Aceitar"
 4. **Source window** — floating GUI appears: "Adicione os itens na troca e clique em Confirmar"
 5. **User adds items manually**
@@ -58,7 +58,7 @@ Class `TradeManager` with constructor dependencies:
 
 | Method | Description |
 |--------|-------------|
-| `_proposeTradeToReceiver(receiverName)` | Focus source → click receiver character position → wait for context menu pixel → click "Propor uma troca" |
+| `_proposeTradeToReceiver(receiverName)` | Focus source → click receiver character position (base + offset) → click "Propor uma troca" at `characterClick + proposeMenuOffset` |
 | `_acceptTradeOnReceiver(receiverName)` | Focus receiver → wait for trade proposal pixel → click "Aceitar" |
 | `_waitUserAddItems()` | Show always-on-top GUI → return `true` (Confirmar) or `false` (Cancelar) |
 | `_confirmTrade(sourceName, receiverName)` | Focus source → click confirm → focus receiver → click confirm |
@@ -72,19 +72,34 @@ New top-level key `"trade"`:
 
 ```json
 "trade": {
-  "characters": {
-    "iop":   { "click": [X, Y] },
-    "panda": { "click": [X, Y] },
-    "eni":   { "click": [X, Y] },
-    "enu":   { "click": [X, Y] }
-  },
-  "proposeMenu":   { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } },
+  "characterBase": { "click": [X, Y] },
+  "characterSpacing": [dX, dY],
+  "characterOrder": ["iop", "panda", "eni", "enu"],
+  "proposeMenuOffset": [dX, dY],
   "acceptButton":  { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } },
   "confirmButton": { "click": [X, Y], "detect": { "pos": [X, Y], "color": "0x..." } }
 }
 ```
 
-`characters[name].click` — screen coordinates to click that account's character in-game (same position in every window since all characters share the same map).
+### Character position calculation
+
+Characters are evenly spaced in the game UI. Given index `i` of the receiver in `characterOrder`:
+
+```
+clickX = characterBase.click[0] + i * characterSpacing[0]
+clickY = characterBase.click[1] + i * characterSpacing[1]
+```
+
+### "Propor troca" menu click
+
+The context menu appears relative to where the character was clicked. "Propor troca" is always at a fixed offset from that click:
+
+```
+proposeX = clickX + proposeMenuOffset[0]
+proposeY = clickY + proposeMenuOffset[1]
+```
+
+Both `characterSpacing` and `proposeMenuOffset` are adjusted manually after first run.
 
 Coordinates are populated manually using the existing `copy_pixel_color_and_position.ahk` utility.
 
@@ -120,7 +135,7 @@ this.trade := TradeManager(config["trade"], this.client, this.account)
 
 ## Error Handling
 
-- Pixel timeout (5 s) for `proposeMenu` and `acceptButton` — abort loop, show tooltip
+- Pixel timeout (5 s) for `acceptButton` — abort loop, show tooltip
 - No open receiver accounts — abort immediately, no GUI shown
 - User cancels GUI — abort loop, return focus to original window
 
