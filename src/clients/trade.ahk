@@ -11,6 +11,18 @@ class TradeManager {
     }
 
     _proposeTrade(receiverName) {
+        this.account.focus(receiverName)
+        this.client.sleep()
+
+        srcClick := this.tradeConfig["sourceCharacter"]["click"]
+        Click(srcClick[1], srcClick[2])
+        this.client.sleep()
+
+        offset   := this.tradeConfig["proposeMenuOffset"]
+        proposeX := srcClick[1] + offset[1]
+        proposeY := srcClick[2] + offset[2]
+        Click(proposeX, proposeY)
+        this.client.sleep()
     }
 
     _acceptTrade(sourceName) {
