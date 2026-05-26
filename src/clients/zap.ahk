@@ -56,9 +56,9 @@ class ZapNavigator {
         myGui.Add("Text", "x" innerX " y30 w" innerW, "Selecione ou digite o destino:")
         if (hasHistory) {
             myGui.Add("ListBox", "x" innerX " y50 vSelectedDestination w" innerW " h167", allDests)
-            myGui.Add("Edit",    "x" innerX " y225 vNewDestination w" innerW)
+            myGui.Add("Edit", "-E0x200 x" innerX " y225 vNewDestination w" innerW)
         } else {
-            myGui.Add("Edit",    "x" innerX " y50 vNewDestination w" innerW)
+            myGui.Add("Edit", "-E0x200 x" innerX " y50 vNewDestination w" innerW)
         }
 
         ; GroupBox "Contas"
@@ -200,9 +200,9 @@ class ZapNavigator {
 
         ; Descending by pos: higher idx = lower in Z-stack = opened first
         n := entries.Length
-        Loop n - 1 {
+        loop n - 1 {
             i := A_Index
-            Loop n - i {
+            loop n - i {
                 j := A_Index
                 if (entries[j].pos < entries[j + 1].pos) {
                     temp := entries[j]
