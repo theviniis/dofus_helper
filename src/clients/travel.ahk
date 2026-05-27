@@ -14,8 +14,8 @@ class TravelNavigator {
             return false
         }
 
-        ; Aceita: xx,yy | [xx,yy | xx,yy] | [xx,yy] | /travel xx,yy (e variantes com colchetes e espaços)
-        if !RegExMatch(Trim(input.value), "i)^(?:/travel\s*)?\[?\s*(-?\d+\s*,\s*-?\d+)\s*\]?$", &m) {
+        ; Aceita: xx,yy | [xx,yy | xx,yy] | [xx,yy] | /travel xx,yy | xx,yy]. | xx,yy], (e variantes com colchetes, ponto ou vírgula no fim)
+        if !RegExMatch(Trim(input.value), "i)^(?:/travel\s*)?\[?\s*(-?\d+\s*,\s*-?\d+)\s*\]?[.,]?$", &m) {
             ToolTip("Formato inválido. Use xx,yy")
             Sleep(1500)
             ToolTip("")
