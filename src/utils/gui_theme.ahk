@@ -91,5 +91,7 @@ class GuiTheme {
                 "UInt", GuiTheme._ToCOLORREF(GuiTheme.BG_DARK))
             return GuiTheme._GetDarkBrush()
         }
+
+        return ""
     }
 }
