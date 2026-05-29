@@ -44,6 +44,7 @@ class ZapNavigator {
         hasHistory := allDests.Length > 0
         state := { result: "", done: false }
         currentIndex := 0
+        hotkeysCleanedUp := false
 
         ; Layout constants (s10 font, 96 DPI)
         gbX := 10, gbW := 320, innerX := 20, innerW := 300
@@ -101,6 +102,7 @@ class ZapNavigator {
                 currentIndex--
             myGui["SelectedDestination"].Choose(currentIndex)
             myGui["NewDestination"].Value := allDests[currentIndex]
+            myGui["NewDestination"].Focus()
         }
 
         NavDown(*) {
@@ -110,9 +112,13 @@ class ZapNavigator {
                 currentIndex++
             myGui["SelectedDestination"].Choose(currentIndex)
             myGui["NewDestination"].Value := allDests[currentIndex]
+            myGui["NewDestination"].Focus()
         }
 
-        CleanupHotkeys(*) {
+        CleanupHotkeys() {
+            if (hotkeysCleanedUp)
+                return
+            hotkeysCleanedUp := true
             HotIfWinActive("ZapNavigator - Destino")
             try HotKey("Up", NavUp, "Off")
             try HotKey("Down", NavDown, "Off")
