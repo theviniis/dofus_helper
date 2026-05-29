@@ -21,8 +21,8 @@ As cores ficam em variáveis estáticas na classe `GuiTheme`:
 | `BG_CONTROL`    | `0x2B2218`  | Fundo de Edit, ListBox           |
 | `FG_TEXT`       | `0xE8D5A3`  | Texto principal (âmbar claro)    |
 | `FG_DIM`        | `0x8A7355`  | Texto desabilitado               |
-| `ACCENT`        | `0xC89B3C`  | Botão OK, detalhes dourados      |
-| `BG_BUTTON`     | `0x3D2E1A`  | Fundo dos botões                 |
+| `ACCENT`        | `0xC89B3C`  | Fonte em negrito do botão OK     |
+| `BG_BUTTON`     | `0x3D2E1A`  | Fundo de todos os botões         |
 | `FONT_NAME`     | `"Segoe UI"`| Fonte principal                  |
 | `FONT_SIZE`     | `10`        | Tamanho padrão                   |
 
@@ -65,10 +65,10 @@ Chamado após cada `gui.Add(...)` para controles que precisam de `BackColor` ind
 
 ### `_OnCtlColor(wParam, lParam, msg, hwnd)`
 
-Handler Win32 chamado pelo Windows ao renderizar botões e checkboxes. Usa `DllCall` para:
-- `SetTextColor(hdc, FG_TEXT)` — cor do texto
-- `SetBkColor(hdc, BG_DARK)` — cor de fundo do label do checkbox
-- Retorna brush compatível com `BG_BUTTON` para botões ou `BG_DARK` para checkboxes/statics
+Handler Win32 chamado pelo Windows ao renderizar botões, checkboxes e labels estáticos. `msg` distingue o tipo de controle:
+
+- `WM_CTLCOLORBTN` (botões): `SetTextColor(hdc, FG_TEXT)`, `SetBkColor(hdc, BG_BUTTON)`, retorna brush de `BG_BUTTON`
+- `WM_CTLCOLORSTATIC` (checkboxes/labels): verifica `IsWindowEnabled(lParam)` via DllCall — se desabilitado usa `FG_DIM`, caso contrário `FG_TEXT`; `SetBkColor(hdc, BG_DARK)`, retorna brush de `BG_DARK`
 
 ---
 
@@ -103,7 +103,9 @@ use() {
     editCtrl := myGui.Add("Edit", "vValue ...")
     GuiTheme.ApplyControl(editCtrl, "Edit")
     myGui.Add("Button", "...", "Cancel").OnEvent("Click", OnCancel)
-    myGui.Add("Button", "... Default", "OK").OnEvent("Click", OnOK)
+    okBtn := myGui.Add("Button", "... Default", "OK")
+    okBtn.SetFont("bold c" GuiTheme.ACCENT)  ; destaque dourado no botão OK
+    okBtn.OnEvent("Click", OnOK)
     ; ... lógica de wait e validação RegEx inalterada
 }
 ```
