@@ -1,9 +1,9 @@
 {
   "accounts": {
-    "iop": "Bate-no-sigilo - Iop - 3.5.17.21 - Release",
-    "panda": "Tanka-no-sigilo - Pandawa - 3.5.17.21 - Release",
-    "eni": "Cura-no-sigilo - Eniripsa - 3.5.17.21 - Release",
-    "enu": "Dropa-No-Sigilo - Enutrof - 3.5.17.21 - Release"
+    "iop": "Bate-no-sigilo - Iop - 3.5.17.23 - Release",
+    "panda": "Tanka-no-sigilo - Pandawa - 3.5.17.23 - Release",
+    "eni": "Cura-no-sigilo - Eniripsa - 3.5.17.23 - Release",
+    "enu": "Dropa-No-Sigilo - Enutrof - 3.5.17.23 - Release"
   },
   "travelersBag": {
     "zap": {
