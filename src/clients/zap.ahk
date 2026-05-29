@@ -43,6 +43,7 @@ class ZapNavigator {
         allDests := this.travelHistory.getAll()
         hasHistory := allDests.Length > 0
         state := { result: "", done: false }
+        currentIndex := 0
 
         ; Layout constants (s10 font, 96 DPI)
         gbX := 10, gbW := 320, innerX := 20, innerW := 300
@@ -93,7 +94,33 @@ class ZapNavigator {
             btnY := contasGbY + contasGbH + 8
         }
 
+        NavUp(*) {
+            if (currentIndex = 0 || currentIndex = 1)
+                currentIndex := allDests.Length
+            else
+                currentIndex--
+            myGui["SelectedDestination"].Choose(currentIndex)
+            myGui["NewDestination"].Value := allDests[currentIndex]
+        }
+
+        NavDown(*) {
+            if (currentIndex = 0 || currentIndex = allDests.Length)
+                currentIndex := 1
+            else
+                currentIndex++
+            myGui["SelectedDestination"].Choose(currentIndex)
+            myGui["NewDestination"].Value := allDests[currentIndex]
+        }
+
+        CleanupHotkeys(*) {
+            HotIfWinActive("ZapNavigator - Destino")
+            try HotKey("Up", NavUp, "Off")
+            try HotKey("Down", NavDown, "Off")
+            HotIfWinActive()
+        }
+
         OnOK(*) {
+            CleanupHotkeys()
             newDest := Trim(myGui["NewDestination"].Value)
             if (newDest != "") {
                 state.result := newDest
@@ -115,11 +142,13 @@ class ZapNavigator {
         }
 
         OnCancel(*) {
+            CleanupHotkeys()
             state.done := true
             myGui.Destroy()
         }
 
         OnClose(GuiObj) {
+            CleanupHotkeys()
             state.done := true
             GuiObj.Destroy()
         }
@@ -127,6 +156,12 @@ class ZapNavigator {
         myGui.Add("Button", "x" gbX " y" btnY " w80", "Cancel").OnEvent("Click", OnCancel)
         myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK").OnEvent("Click", OnOK)
         myGui.OnEvent("Close", OnClose)
+        if (hasHistory) {
+            HotIfWinActive("ZapNavigator - Destino")
+            HotKey("Up", NavUp)
+            HotKey("Down", NavDown)
+            HotIfWinActive()
+        }
         myGui.Show()
         myGui["NewDestination"].Focus()
 
