@@ -16,6 +16,7 @@ class GuiTheme {
     static _darkBrush  := 0
     static _ctrlBrush  := 0
     static _btnBrush   := 0
+    static _cb         := 0
 
     ; Aplica tema na janela: fundo, fonte e registra WM_CTLCOLOR* (uma única vez)
     static Apply(gui) {
@@ -25,10 +26,11 @@ class GuiTheme {
             GuiTheme.FONT_NAME
         )
         if (!GuiTheme._registered) {
-            OnMessage(0x0133, GuiTheme._OnCtlColor)  ; WM_CTLCOLOREDIT
-            OnMessage(0x0134, GuiTheme._OnCtlColor)  ; WM_CTLCOLORLISTBOX
-            OnMessage(0x0135, GuiTheme._OnCtlColor)  ; WM_CTLCOLORBTN
-            OnMessage(0x0138, GuiTheme._OnCtlColor)  ; WM_CTLCOLORSTATIC
+            GuiTheme._cb := ObjBindMethod(GuiTheme, "_OnCtlColor")
+            OnMessage(0x0133, GuiTheme._cb)  ; WM_CTLCOLOREDIT
+            OnMessage(0x0134, GuiTheme._cb)  ; WM_CTLCOLORLISTBOX
+            OnMessage(0x0135, GuiTheme._cb)  ; WM_CTLCOLORBTN
+            OnMessage(0x0138, GuiTheme._cb)  ; WM_CTLCOLORSTATIC
             GuiTheme._registered := true
         }
     }
