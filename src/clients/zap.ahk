@@ -99,7 +99,9 @@ class ZapNavigator {
         NavUp(*) {
             if (ControlGetFocus("A") != myGui["NewDestination"].Hwnd)
                 return
-            if (currentIndex = 0 || currentIndex = 1)
+            if (currentIndex = 0)
+                currentIndex := 1
+            else if (currentIndex = 1)
                 currentIndex := allDests.Length
             else
                 currentIndex--
