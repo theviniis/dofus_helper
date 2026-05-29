@@ -53,7 +53,7 @@ class ZapNavigator {
         ; GroupBox "Destino"
         destGbH := hasHistory ? 252 : 80
         myGui := Gui("+AlwaysOnTop", "ZapNavigator - Destino")
-        myGui.SetFont("s10")
+        GuiTheme.Apply(myGui)
         myGui.Add("GroupBox", "x" gbX " ym w" gbW " h" destGbH, "Destino")
         myGui.Add("Text", "x" innerX " y30 w" innerW, "Selecione ou digite o destino:")
         if (hasHistory) {
@@ -179,7 +179,9 @@ class ZapNavigator {
         }
 
         myGui.Add("Button", "x" gbX " y" btnY " w80", "Cancel").OnEvent("Click", OnCancel)
-        myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK").OnEvent("Click", OnOK)
+        okBtn := myGui.Add("Button", "x+10 y" btnY " w80 Default", "OK")
+        okBtn.SetFont("bold c" Format("{:06X}", GuiTheme.ACCENT))
+        okBtn.OnEvent("Click", OnOK)
         myGui.OnEvent("Close", OnClose)
         if (hasHistory) {
             HotIfWinActive("ZapNavigator - Destino")
