@@ -58,6 +58,7 @@ class ZapNavigator {
         myGui.Add("Text", "x" innerX " y30 w" innerW, "Selecione ou digite o destino:")
         if (hasHistory) {
             myGui.Add("ListBox", "x" innerX " y50 vSelectedDestination w" innerW " h167", allDests)
+            myGui["SelectedDestination"].OnEvent("Change", OnListboxChange)
             myGui.Add("Edit", "-E0x200 x" innerX " y225 vNewDestination w" innerW)
         } else {
             myGui.Add("Edit", "-E0x200 x" innerX " y50 vNewDestination w" innerW)
@@ -96,6 +97,8 @@ class ZapNavigator {
         }
 
         NavUp(*) {
+            if (ControlGetFocus("A") != myGui["NewDestination"].Hwnd)
+                return
             if (currentIndex = 0 || currentIndex = 1)
                 currentIndex := allDests.Length
             else
@@ -106,6 +109,8 @@ class ZapNavigator {
         }
 
         NavDown(*) {
+            if (ControlGetFocus("A") != myGui["NewDestination"].Hwnd)
+                return
             if (currentIndex = 0 || currentIndex = allDests.Length)
                 currentIndex := 1
             else
@@ -123,6 +128,18 @@ class ZapNavigator {
             try HotKey("Up", NavUp, "Off")
             try HotKey("Down", NavDown, "Off")
             HotIfWinActive()
+        }
+
+        OnListboxChange(*) {
+            selected := myGui["SelectedDestination"].Text
+            loop allDests.Length {
+                if (allDests[A_Index] = selected) {
+                    currentIndex := A_Index
+                    break
+                }
+            }
+            myGui["NewDestination"].Value := selected
+            myGui["NewDestination"].Focus()
         }
 
         OnOK(*) {
