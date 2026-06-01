@@ -38,6 +38,18 @@
   },
   "group": {
     "firstPos": [2049, 1362],
-    "offsetX": 80
+    "offsetX": 80,
+    "gui": {
+      "x": 100,
+      "y": 100
+    },
+    "menu": {
+      "detect":       { "offsetPos": [0, 0], "color": "0x000000" },
+      "offsetX":      0,
+      "followLeader": { "offsetY": 0 },
+      "invite":       { "offsetY": 0 },
+      "kick":         { "offsetY": 0 },
+      "proposeTrade": { "offsetY": 0 }
+    }
   }
 }

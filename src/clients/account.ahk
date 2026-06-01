@@ -10,12 +10,39 @@ class AccountManager {
             if entry.Has("main") && entry["main"]
                 this.mainCharacter := entry["name"]
         }
+        this._registerHotkeys()
     }
 
-    focus(accountName) {
-        windowName := this.account.Get(accountName)
-        this.client.waitWindow(windowName)
-        this.client.focusWindow(windowName)
+    focus(index, accountName?) {
+        if Type(index) = "String" {
+            sorted := this.sortByWindowOrder(this.getOpenAccounts())
+            for idx, name in sorted {
+                if (name = index) {
+                    index := idx
+                    break
+                }
+            }
+        }
+
+        if Type(index) != "Integer"
+            return
+
+        hwnds := WinGetList("ahk_exe Dofus.exe")
+        n := hwnds.Length
+        loop n - 1 {
+            i := A_Index
+            loop n - i {
+                j := A_Index
+                if (hwnds[j] > hwnds[j + 1]) {
+                    tmp := hwnds[j]
+                    hwnds[j] := hwnds[j + 1]
+                    hwnds[j + 1] := tmp
+                }
+            }
+        }
+
+        if index <= hwnds.Length
+            WinActivate(hwnds[index])
     }
 
     getOpenAccounts() {
@@ -37,28 +64,36 @@ class AccountManager {
         return ""
     }
 
-    sortByWindowOrder(accounts) {
-        allWindows := WinGetList()
-        zOrder := Map()
-        for idx, hwnd in allWindows {
-            zOrder[hwnd] := idx
+    getIndex(accountName) {
+        sorted := this.sortByWindowOrder(this.getOpenAccounts())
+        for idx, name in sorted {
+            if (name = accountName)
+                return idx
         }
+        return 0
+    }
 
+    focusByIndex(n, *) {
+        this.focus(n)
+    }
+
+    sortByWindowOrder(accounts) {
         entries := []
         for accountName in accounts {
             windowName := this.account.Get(accountName)
             hwnd := WinExist(windowName)
-            pos := (hwnd && zOrder.Has(hwnd)) ? zOrder[hwnd] : 0
+            ; Lower HWND = window created first (launch order)
+            pos := hwnd ? hwnd : 0xFFFFFFFF
             entries.Push({ name: accountName, pos: pos })
         }
 
-        ; Descending by pos: higher idx = lower in Z-stack = opened first
+        ; Ascending by pos: lower HWND = opened earlier = first
         n := entries.Length
         loop n - 1 {
             i := A_Index
             loop n - i {
                 j := A_Index
-                if (entries[j].pos < entries[j + 1].pos) {
+                if (entries[j].pos > entries[j + 1].pos) {
                     temp := entries[j]
                     entries[j] := entries[j + 1]
                     entries[j + 1] := temp
@@ -71,5 +106,12 @@ class AccountManager {
             sorted.Push(entry.name)
         }
         return sorted
+    }
+
+    _registerHotkeys() {
+        loop this.account.Count {
+            n := A_Index
+            Hotkey("$#" n, ObjBindMethod(this, "focusByIndex", n))
+        }
     }
 }

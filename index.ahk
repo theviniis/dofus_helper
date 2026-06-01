@@ -10,12 +10,6 @@ config := Jxon_Load_File("config.json")
 app := Init(config)
 MAIN_CHARACTER := app.account.mainCharacter
 
-; ACCOUNT FOCUS
-$#1:: app.account.focus('eni')
-$#2:: app.account.focus('panda')
-$#3:: app.account.focus('iop')
-$#4:: app.account.focus(MAIN_CHARACTER)
-
 ; TRAVEL
 $^t:: app.travel.use()
 
@@ -38,3 +32,6 @@ $F9:: {
 
 ; GROUP OVERLAY
 $^g:: app.group.toggleOverlay()
+
+; GROUP ACTIONS
+$^+g:: app.groupAction.toggleGui()
