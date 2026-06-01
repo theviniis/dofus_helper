@@ -7,7 +7,7 @@
 MAIN_CHARACTER := 'enu'
 
 config := Jxon_Load_File("config.json")
-app := Init(config)
+app := Init(config, MAIN_CHARACTER)
 
 ; ACCOUNT FOCUS
 $#1:: app.account.focus('eni')
@@ -16,10 +16,7 @@ $#3:: app.account.focus('iop')
 $#4:: app.account.focus(MAIN_CHARACTER)
 
 ; TRAVEL
-$^t:: {
-    app.account.focus(MAIN_CHARACTER)
-    app.travel.use()
-}
+$^t:: app.travel.use()
 
 ; USE ZAP
 $+h:: app.zap.use()
