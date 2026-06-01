@@ -15,6 +15,10 @@ class AccountManager {
         return ""
     }
 
+    getAll() {
+        return this.accounts
+    }
+
     focus(accountName) {
         windowName := this.getWindowName(accountName)
         this.client.waitWindow(windowName)

@@ -72,7 +72,7 @@ class ZapNavigator {
             myGui.Add("GroupBox", "x" gbX " y" contasGbY " w" gbW " h" contasGbH, "Contas")
             checkY := contasGbY + gbTitleH + 4
             firstCheckbox := true
-            for item in this.account.accounts {
+            for item in this.account.getAll() {
                 accountName := item["name"]
                 windowName := item["windowName"]
                 isOpen := this.client.windowExists(windowName)
@@ -158,7 +158,7 @@ class ZapNavigator {
             }
             if (showAccounts) {
                 selected := []
-                for item in this.account.accounts {
+                for item in this.account.getAll() {
                     accountName := item["name"]
                     if (myGui["__cb_" accountName].Value)
                         selected.Push(accountName)
