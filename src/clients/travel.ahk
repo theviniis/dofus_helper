@@ -18,14 +18,16 @@ class TravelNavigator {
         }
 
         g := Gui(, "Coordenadas")
-        g.Add("Text",, "Coordenadas (xx,yy):")
-        g.Add("Edit", "w200 vCoords")
-        g.Add("CheckBox", "vFocusMain Checked", "Focar personagem principal?")
-        g.Add("Button", "Default w80", "OK").OnEvent("Click", OkClick)
-        g.Add("Button", "w80", "Cancelar").OnEvent("Click", (*) => g.Destroy())
+        g.Add("GroupBox", "x10 y10 w240 h65", "Destino")
+        g.Add("Text", "x20 y28", "Coordenadas (xx,yy):")
+        g.Add("Edit", "x20 y44 w220 vCoords -E0x200")
+        g.Add("GroupBox", "x10 y82 w240 h40", "Opções")
+        g.Add("CheckBox", "x20 y97 vFocusMain Checked", "Focar personagem principal?")
+        g.Add("Button", "x80 y132 w80", "Cancelar").OnEvent("Click", (*) => g.Destroy())
+        g.Add("Button", "x170 y132 w80 Default", "OK").OnEvent("Click", OkClick)
         g.OnEvent("Close", (*) => g.Destroy())
 
-        g.Show()
+        g.Show("w260")
         WinWaitClose(g)
 
         if !submitted
