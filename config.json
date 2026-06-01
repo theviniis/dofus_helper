@@ -7,20 +7,20 @@
   },
   "travelersBag": {
     "zap": {
-      "click": [1165, 554],
+      "click": [1207, 484],
       "detect": {
-        "pos": [1445, 429],
-        "color": "0xA75F20"
+        "pos": [1868, 232],
+        "color": "0x532D0B"
       }
     },
     "zapInterface": {
       "detect": {
-        "pos": [1595, 410],
-        "color": "0x173238"
+        "pos": [1866, 409],
+        "color": "0xFFFFFF"
       }
     },
     "search": {
-      "click": [1334, 515]
+      "click": [1329, 512]
     }
   }
 }
