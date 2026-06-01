@@ -7,11 +7,11 @@
 #Include ../clients/macro_broadcaster.ahk
 
 class Init {
-    __New(config) {
+    __New(config, mainCharacter) {
         this.client    := ClientInterface(config)
         this.account   := AccountManager(config["accounts"], this.client)
         this.zap       := ZapNavigator(config["travelersBag"], this.client, TravelHistory(), this.account)
-        this.travel    := TravelNavigator(this.client)
+        this.travel    := TravelNavigator(this.client, this.account, mainCharacter)
         this.macro     := MacroBroadcaster(this.account, this.client)
     }
 }
