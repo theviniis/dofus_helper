@@ -48,10 +48,18 @@ class ClientInterface {
         MouseClick("Right", x, y)
     }
 
+    clickRawAt(x, y) {
+        Click(x, y)
+    }
+
     pixelMatches(coordName) {
         detect := this.config["travelersBag"][coordName]['detect']
         pixelColor := PixelGetColor(detect['pos'][1], detect['pos'][2])
         return pixelColor == detect['color']
+    }
+
+    pixelColorAt(x, y) {
+        return PixelGetColor(x, y)
     }
 
     clearInput() {

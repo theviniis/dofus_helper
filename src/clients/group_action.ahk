@@ -1,7 +1,5 @@
 #Requires AutoHotkey v2.0
 
-SLEEP_TIME := 200
-
 class GroupActionManager {
     __New(groupConfig, account, client) {
         this.groupConfig := groupConfig
@@ -49,6 +47,13 @@ class GroupActionManager {
         this.gui := myGui
     }
 
+    toggleGui() {
+        if (this.gui.Visible)
+            this.gui.Hide()
+        else
+            this.gui.Show("NoActivate")
+    }
+
     followLeader(i, *) {
         this._performAction(i, "followLeader")
     }
@@ -85,7 +90,7 @@ class GroupActionManager {
         color := detect["color"]
         deadline := A_TickCount + 500
         while (A_TickCount < deadline) {
-            if (PixelGetColor(checkX, checkY) == color)
+            if (this.client.pixelColorAt(checkX, checkY) == color)
                 return true
             Sleep(SLEEP_TIME)
         }
@@ -96,6 +101,6 @@ class GroupActionManager {
         menu := this.groupConfig["menu"]
         optX := portraitX + menu["offsetX"]
         optY := portraitY + menu[action]["offsetY"]
-        Click(optX, optY)
+        this.client.clickRawAt(optX, optY)
     }
 }

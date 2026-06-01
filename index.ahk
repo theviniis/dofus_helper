@@ -32,3 +32,6 @@ $F9:: {
 
 ; GROUP OVERLAY
 $^g:: app.group.toggleOverlay()
+
+; GROUP ACTIONS
+$^+g:: app.groupAction.toggleGui()
