@@ -33,7 +33,7 @@ class AccountManager {
 
     getAccountByWindow(windowId) {
         for item in this.accounts {
-            if WinExist(item["windowName"]) = windowId {
+            if this.client.windowExists(item["windowName"]) = windowId {
                 return item["name"]
             }
         }
