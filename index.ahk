@@ -4,6 +4,8 @@
 #Include ./src/utils/JSON.ahk
 #Include ./src/utils/init.ahk
 
+#Include ./src/utils/copy_pixel_color_and_position.ahk
+
 config := Jxon_Load_File("config.json")
 app := Init(config)
 MAIN_CHARACTER := app.account.mainCharacter
