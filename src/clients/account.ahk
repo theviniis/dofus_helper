@@ -1,31 +1,44 @@
 #Requires AutoHotkey v2.0
 
 class AccountManager {
-    __New(account, client) {
-        this.account := account
+    __New(accounts, client) {
+        this.accounts := accounts
         this.client := client
     }
 
+    getWindowName(accountName) {
+        for item in this.accounts {
+            if item["name"] = accountName {
+                return item["windowName"]
+            }
+        }
+        return ""
+    }
+
+    getAll() {
+        return this.accounts
+    }
+
     focus(accountName) {
-        windowName := this.account.Get(accountName)
+        windowName := this.getWindowName(accountName)
         this.client.waitWindow(windowName)
         this.client.focusWindow(windowName)
     }
 
     getOpenAccounts() {
         openAccounts := []
-        for accountName, windowName in this.account {
-            if this.client.windowExists(windowName) {
-                openAccounts.Push(accountName)
+        for item in this.accounts {
+            if this.client.windowExists(item["windowName"]) {
+                openAccounts.Push(item["name"])
             }
         }
         return openAccounts
     }
 
     getAccountByWindow(windowId) {
-        for accountName, windowName in this.account {
-            if WinExist(windowName) = windowId {
-                return accountName
+        for item in this.accounts {
+            if this.client.windowExists(item["windowName"]) = windowId {
+                return item["name"]
             }
         }
         return ""
@@ -40,7 +53,7 @@ class AccountManager {
 
         entries := []
         for accountName in accounts {
-            windowName := this.account.Get(accountName)
+            windowName := this.getWindowName(accountName)
             hwnd := WinExist(windowName)
             pos := (hwnd && zOrder.Has(hwnd)) ? zOrder[hwnd] : 0
             entries.Push({ name: accountName, pos: pos })
