@@ -72,7 +72,9 @@ class ZapNavigator {
             myGui.Add("GroupBox", "x" gbX " y" contasGbY " w" gbW " h" contasGbH, "Contas")
             checkY := contasGbY + gbTitleH + 4
             firstCheckbox := true
-            for accountName, windowName in this.account.account {
+            for item in this.account.accounts {
+                accountName := item["name"]
+                windowName := item["windowName"]
                 isOpen := this.client.windowExists(windowName)
                 if (this.selectedAccounts.Length = 0) {
                     isChecked := isOpen
@@ -156,7 +158,8 @@ class ZapNavigator {
             }
             if (showAccounts) {
                 selected := []
-                for accountName, _ in this.account.account {
+                for item in this.account.accounts {
+                    accountName := item["name"]
                     if (myGui["__cb_" accountName].Value)
                         selected.Push(accountName)
                 }
@@ -252,7 +255,7 @@ class ZapNavigator {
 
         entries := []
         for accountName in accounts {
-            windowName := this.account.account.Get(accountName)
+            windowName := this.account.getWindowName(accountName)
             hwnd := WinExist(windowName)
             pos := (hwnd && zOrder.Has(hwnd)) ? zOrder[hwnd] : 0
             entries.Push({ name: accountName, pos: pos })
@@ -296,7 +299,7 @@ class ZapNavigator {
         orderedAccounts := this.sortByWindowOrder(this.selectedAccounts)
 
         for accountName in orderedAccounts {
-            windowName := this.account.account.Get(accountName)
+            windowName := this.account.getWindowName(accountName)
             if (!this.client.windowExists(windowName))
                 continue
             this.account.focus(accountName)
