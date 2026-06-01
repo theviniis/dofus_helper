@@ -1,7 +1,5 @@
 #Requires AutoHotkey v2.0
 
-SLEEP_TIME := 200
-
 class TravelNavigator {
     __New(client, account, mainCharacter) {
         this.client := client
@@ -31,6 +29,9 @@ class TravelNavigator {
         WinWaitClose(g)
 
         if !submitted
+            return false
+
+        if (Trim(savedData.Coords) = "")
             return false
 
         if !RegExMatch(Trim(savedData.Coords), "i)^(?:/travel\s*)?\[?\s*(-?\d+\s*,\s*-?\d+)\s*\]?[.,]?$", &m) {
