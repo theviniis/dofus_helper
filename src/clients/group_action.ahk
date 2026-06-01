@@ -1,10 +1,13 @@
 #Requires AutoHotkey v2.0
 
+SLEEP_TIME := 200
+
 class GroupActionManager {
     __New(groupConfig, account, client) {
         this.groupConfig := groupConfig
         this.account := account
         this.client := client
+        this.gui := ""
     }
 
     showGui() {
@@ -43,46 +46,36 @@ class GroupActionManager {
         guiX := this.groupConfig["gui"]["x"]
         guiY := this.groupConfig["gui"]["y"]
         myGui.Show("x" guiX " y" guiY " NoActivate")
+        this.gui := myGui
     }
 
     followLeader(i, *) {
-        portraitX := this.groupConfig["firstPos"][1] + i * this.groupConfig["offsetX"]
-        portraitY := this.groupConfig["firstPos"][2]
-        this.clickPortrait(portraitX, portraitY)
-        if (!this.waitForMenu(portraitX, portraitY))
-            return
-        this.clickMenuOption(portraitX, portraitY, "followLeader")
+        this._performAction(i, "followLeader")
     }
 
     invite(i, *) {
-        portraitX := this.groupConfig["firstPos"][1] + i * this.groupConfig["offsetX"]
-        portraitY := this.groupConfig["firstPos"][2]
-        this.clickPortrait(portraitX, portraitY)
-        if (!this.waitForMenu(portraitX, portraitY))
-            return
-        this.clickMenuOption(portraitX, portraitY, "invite")
+        this._performAction(i, "invite")
     }
 
     kick(i, *) {
-        portraitX := this.groupConfig["firstPos"][1] + i * this.groupConfig["offsetX"]
-        portraitY := this.groupConfig["firstPos"][2]
-        this.clickPortrait(portraitX, portraitY)
-        if (!this.waitForMenu(portraitX, portraitY))
-            return
-        this.clickMenuOption(portraitX, portraitY, "kick")
+        this._performAction(i, "kick")
     }
 
     proposeTrade(i, *) {
+        this._performAction(i, "proposeTrade")
+    }
+
+    _performAction(i, action) {
         portraitX := this.groupConfig["firstPos"][1] + i * this.groupConfig["offsetX"]
         portraitY := this.groupConfig["firstPos"][2]
         this.clickPortrait(portraitX, portraitY)
         if (!this.waitForMenu(portraitX, portraitY))
             return
-        this.clickMenuOption(portraitX, portraitY, "proposeTrade")
+        this.clickMenuOption(portraitX, portraitY, action)
     }
 
     clickPortrait(portraitX, portraitY) {
-        MouseClick("Right", portraitX, portraitY)
+        this.client.rightClickAt(portraitX, portraitY)
     }
 
     waitForMenu(portraitX, portraitY) {
