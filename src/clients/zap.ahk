@@ -243,7 +243,7 @@ class ZapNavigator {
         return true
     }
 
-useAll() {
+    useAll() {
         priorWindow := WinExist("A")
         openAccounts := this.account.getOpenAccounts()
 
