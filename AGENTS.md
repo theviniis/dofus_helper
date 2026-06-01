@@ -136,6 +136,12 @@ index.ahk (hotkeys + DI composition root)
 - `docs/superpowers/specs/` — All feature specifications
 - `docs/superpowers/plans/` — All implementation plans
 
+## GUI Design Conventions
+
+- **InputBox border:** campos de input de texto não devem ter `border-bottom`; usar o parâmetro `-E0x200 x` nos controles `Edit`
+- **Botões OK/Cancelar:** devem ficar alinhados lado a lado e posicionados no canto direito da GUI
+- **Separação por GroupBox:** toda GUI deve organizar seus controles em `GroupBox` para separação visual de seções
+
 ## Rules
 
 - NEVER COMMIT CHANGES UNLESS USER ASKS!
