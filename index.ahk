@@ -34,3 +34,6 @@ $F9:: {
     app.client.sleep(500)
     app.account.focus(MAIN_CHARACTER)
 }
+
+; GROUP OVERLAY
+$^g:: app.group.toggleOverlay()

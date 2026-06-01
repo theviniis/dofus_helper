@@ -22,5 +22,9 @@
     "search": {
       "click": [1329, 512]
     }
+  },
+  "group": {
+    "firstPos": [0, 0],
+    "offsetX": 0
   }
 }
