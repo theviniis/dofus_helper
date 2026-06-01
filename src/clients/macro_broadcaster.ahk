@@ -18,10 +18,15 @@ class MacroBroadcaster {
 
     ; Alterna entre iniciar e parar a gravação
     toggle() {
-        if (this.recording)
+        if (this.recording) {
+            this.client.allowAllyToFollowLeader()
+            this.client.sleep()
             this.stopRecording()
-        else
+        } else {
             this.startRecording()
+            this.client.sleep()
+            this.client.allowAllyToFollowLeader()
+        }
     }
 
     startRecording() {
