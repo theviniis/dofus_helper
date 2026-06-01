@@ -67,7 +67,7 @@ class MacroBroadcaster {
 
         for accountName in openAccounts {
             ; Pula a janela onde a gravação foi iniciada
-            windowName := this.accountMgr.getWindowName(accountName)
+            windowName := this.accountMgr.account.Get(accountName)
             if (WinExist(windowName) = this.originWindowId)
                 continue
 

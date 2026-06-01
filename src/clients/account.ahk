@@ -2,43 +2,36 @@
 
 class AccountManager {
     __New(accounts, client) {
-        this.accounts := accounts
         this.client := client
-    }
-
-    getWindowName(accountName) {
-        for item in this.accounts {
-            if item["name"] = accountName {
-                return item["windowName"]
-            }
+        this.account := Map()
+        this.mainCharacter := ""
+        for entry in accounts {
+            this.account[entry["name"]] := entry["windowName"]
+            if entry.Has("main") && entry["main"]
+                this.mainCharacter := entry["name"]
         }
-        return ""
-    }
-
-    getAll() {
-        return this.accounts
     }
 
     focus(accountName) {
-        windowName := this.getWindowName(accountName)
+        windowName := this.account.Get(accountName)
         this.client.waitWindow(windowName)
         this.client.focusWindow(windowName)
     }
 
     getOpenAccounts() {
         openAccounts := []
-        for item in this.accounts {
-            if this.client.windowExists(item["windowName"]) {
-                openAccounts.Push(item["name"])
+        for accountName, windowName in this.account {
+            if this.client.windowExists(windowName) {
+                openAccounts.Push(accountName)
             }
         }
         return openAccounts
     }
 
     getAccountByWindow(windowId) {
-        for item in this.accounts {
-            if this.client.windowExists(item["windowName"]) = windowId {
-                return item["name"]
+        for accountName, windowName in this.account {
+            if WinExist(windowName) = windowId {
+                return accountName
             }
         }
         return ""
@@ -53,7 +46,7 @@ class AccountManager {
 
         entries := []
         for accountName in accounts {
-            windowName := this.getWindowName(accountName)
+            windowName := this.account.Get(accountName)
             hwnd := WinExist(windowName)
             pos := (hwnd && zOrder.Has(hwnd)) ? zOrder[hwnd] : 0
             entries.Push({ name: accountName, pos: pos })

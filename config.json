@@ -1,6 +1,6 @@
 {
   "accounts": [
-    { "name": "iop",   "windowName": "Bate-no-sigilo - Iop - 3.5.17.24 - Release" },
+    { "name": "iop",   "windowName": "Bate-no-sigilo - Iop - 3.5.17.24 - Release", "main": true },
     { "name": "panda", "windowName": "Tanka-no-sigilo - Pandawa - 3.5.17.24 - Release" },
     { "name": "eni",   "windowName": "Cura-no-sigilo - Eniripsa - 3.5.17.24 - Release" },
     { "name": "enu",   "windowName": "Dropa-No-Sigilo - Enutrof - 3.5.17.24 - Release" }
