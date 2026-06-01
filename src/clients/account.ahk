@@ -1,9 +1,15 @@
 #Requires AutoHotkey v2.0
 
 class AccountManager {
-    __New(account, client) {
-        this.account := account
+    __New(accounts, client) {
         this.client := client
+        this.account := Map()
+        this.mainCharacter := ""
+        for entry in accounts {
+            this.account[entry["name"]] := entry["windowName"]
+            if entry.Has("main") && entry["main"]
+                this.mainCharacter := entry["name"]
+        }
     }
 
     focus(accountName) {

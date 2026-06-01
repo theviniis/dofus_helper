@@ -1,10 +1,10 @@
 {
-  "accounts": {
-    "iop": "Bate-no-sigilo - Iop - 3.5.17.24 - Release",
-    "panda": "Tanka-no-sigilo - Pandawa - 3.5.17.24 - Release",
-    "eni": "Cura-no-sigilo - Eniripsa - 3.5.17.24 - Release",
-    "enu": "Dropa-No-Sigilo - Enutrof - 3.5.17.24 - Release"
-  },
+  "accounts": [
+    { "name": "iop",   "windowName": "Bate-no-sigilo - Iop - 3.5.17.24 - Release", "main": true },
+    { "name": "panda", "windowName": "Tanka-no-sigilo - Pandawa - 3.5.17.24 - Release" },
+    { "name": "eni",   "windowName": "Cura-no-sigilo - Eniripsa - 3.5.17.24 - Release" },
+    { "name": "enu",   "windowName": "Dropa-No-Sigilo - Enutrof - 3.5.17.24 - Release" }
+  ],
   "travelersBag": {
     "zap": {
       "click": [1207, 484],
