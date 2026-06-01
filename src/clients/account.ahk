@@ -10,6 +10,7 @@ class AccountManager {
             if entry.Has("main") && entry["main"]
                 this.mainCharacter := entry["name"]
         }
+        this._registerHotkeys()
     }
 
     focus(accountName) {
@@ -35,6 +36,13 @@ class AccountManager {
             }
         }
         return ""
+    }
+
+    focusByIndex(n, *) {
+        open := this.sortByWindowOrder(this.getOpenAccounts())
+        if n > open.Length
+            return
+        this.focus(open[n])
     }
 
     sortByWindowOrder(accounts) {
@@ -71,5 +79,12 @@ class AccountManager {
             sorted.Push(entry.name)
         }
         return sorted
+    }
+
+    _registerHotkeys() {
+        loop this.account.Count {
+            n := A_Index
+            Hotkey("$#" n, ObjBindMethod(this, "focusByIndex", n))
+        }
     }
 }
